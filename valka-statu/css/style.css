@@ -44,3 +44,5 @@ canvas#game{display:block;border-radius:8px;touch-action:none;box-shadow:0 4px 2
 #hearts td{padding:4px 8px;vertical-align:middle;font-size:15px}
 #hearts td.h{color:#ff4057;font-size:18px;letter-spacing:1px}
 #hearts canvas{width:56px;height:38px}
+.allgames{display:inline-block;margin-top:18px;padding:10px 18px;font-size:18px;color:var(--text);background:var(--panel2);border:2px solid #0006;border-radius:10px;text-decoration:none;touch-action:manipulation}
+.allgames:hover{filter:brightness(1.15)}

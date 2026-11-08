@@ -67,12 +67,14 @@ function showOverlay(kind) {
         <li>Nepřítel na druhé straně hraje <b>sám</b> a dělá úplně to samé!</li>
       </ul>
       <p><b>Jak těžké to má být?</b></p>
-      <div class="diff">${diffBtns}</div>`;
+      <div class="diff">${diffBtns}</div>
+      <a class="allgames" href="../">← Všechny hry</a>`;
   } else {
     const win = kind === 'win';
     ovBox.innerHTML = `<h1>${win ? '🎉 VYHRÁL JSI! 🎉' : '💥 Prohra…'}</h1>
       <p style="font-size:20px">${win ? 'Nepřátelská základna je zničená. Jsi skvělý velitel!' : 'Tvoje základna padla. Zkus to znovu – a nezapomeň léčit zraněné!'}</p>
-      <p>Hrát znovu:</p><div class="diff">${diffBtns}</div>`;
+      <p>Hrát znovu:</p><div class="diff">${diffBtns}</div>
+      <a class="allgames" href="../">← Všechny hry</a>`;
   }
   ovBox.querySelectorAll('[data-d]').forEach(b => b.onclick = () => { diff = b.dataset.d; startGame(); });
 }
