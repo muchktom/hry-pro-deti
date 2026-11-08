@@ -56,14 +56,14 @@ const App = (() => {
   };
 
   // Mluvení postavičky na domovské obrazovce
-  async function homeSay(id) {
+  async function homeSay(id, text) {
     const c = CHAR[id];
     const btn = $(`.wchar[data-say="${id}"]`);
     const art = btn.querySelector('div');
     const lines = id === 'gabi'
       ? ['Ahoj! Já jsem Gábi! Chceš si zavolat?', 'Mňau! Zahrajeme si pexeso?', 'Napiš mi zprávu! Ráda ti odpovím!', 'Kočičí ouška, raz, dva, tři!']
       : ['Hihihi! Ahoj! Já jsem Pandy!', 'Zavolej mi! Budeme se mazlit!', 'Mám hlad! Nemáš sušenku?', 'Hop! Hop! Hihihi!'];
-    const t = pick(lines);
+    const t = text || pick(lines);
     $('#home-bubble').textContent = t;
     btn.classList.add('talk');
     Sound.play(c.sfx);
@@ -535,6 +535,85 @@ const App = (() => {
     return { init, renderList, open, leave, updateBadge };
   })();
 
+  // ---------------- Profil dítěte ----------------
+  const Profile = (() => {
+    const AVATARS = ['🐱', '🐶', '🐰', '🦊', '🐼', '🦄', '🐸', '🐵', '🐯', '🐨'];
+    let draftAvatar = null;
+
+    function cleanName(s) {
+      const t = (s || '').replace(/[^\p{L}\s-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 14);
+      return t ? t.charAt(0).toUpperCase() + t.slice(1) : '';
+    }
+    function avatar() { return Store.get('kidAvatar') || AVATARS[0]; }
+
+    function renderChip() {
+      const nm = Store.get('kidName');
+      $('#pc-avatar').textContent = avatar();
+      $('#pc-text').textContent = nm ? `Ahoj, ${nm}!` : 'Jak se jmenuješ?';
+    }
+    function renderPreview() {
+      $('#pf-avatar').textContent = draftAvatar;
+      $('#pf-preview-name').textContent = cleanName($('#pf-name').value);
+      $$('#pf-avatars button').forEach(b => b.classList.toggle('sel', b.textContent === draftAvatar));
+    }
+
+    function open() {
+      draftAvatar = avatar();
+      $('#pf-name').value = Store.get('kidName') || '';
+      renderPreview();
+      $('#profile').classList.add('on');
+    }
+    function close() {
+      Listener.stop(); $('#pf-mic').classList.remove('listening');
+      $('#pf-name').blur();
+      $('#profile').classList.remove('on');
+    }
+    function save() {
+      const old = Store.get('kidName');
+      const nm = cleanName($('#pf-name').value);
+      Store.set('kidAvatar', draftAvatar);
+      Store.set('kidName', nm || null);
+      Store.set('kidNameFromProfile', !!nm);
+      renderChip();
+      close();
+      Sound.play('magic');
+      if (nm && nm !== old) homeSay('gabi', `Ahoj, ${nm}! To je ale krásné jméno! Budu si ho pamatovat.`);
+    }
+
+    function init() {
+      $('#pf-avatars').innerHTML = AVATARS.map(a => `<button type="button">${a}</button>`).join('');
+      $('#pf-avatars').addEventListener('click', (e) => {
+        const b = e.target.closest('button'); if (!b) return;
+        Sound.play('tap'); draftAvatar = b.textContent; renderPreview();
+      });
+      $('#pf-name').addEventListener('input', renderPreview);
+      $('#pf-name').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); save(); } });
+      $('#pf-mic').addEventListener('click', () => {
+        const btn = $('#pf-mic');
+        if (Listener.isActive()) { Listener.stop(); btn.classList.remove('listening'); return; }
+        if (!Listener.supported) { alert('Tenhle prohlížeč neumí poslouchat. Napiš jméno, nebo zkus Chrome.'); return; }
+        Voice.stop();
+        Listener.listen({
+          silenceMs: 1200,
+          onStart: () => btn.classList.add('listening'),
+          onResult: (text, final) => {
+            const nm = final ? (Brain.extractName(text) || cleanName(text)) : cleanName(text);
+            $('#pf-name').value = nm; renderPreview();
+          },
+          onEnd: () => btn.classList.remove('listening'),
+          onError: () => btn.classList.remove('listening'),
+        });
+      });
+      $('#profile-chip').addEventListener('click', () => { Sound.play('tap'); open(); });
+      $('#pf-save').addEventListener('click', save);
+      $('#pf-cancel').addEventListener('click', close);
+      $('#profile').addEventListener('click', (e) => { if (e.target.id === 'profile') close(); });
+      renderChip();
+    }
+
+    return { init, renderChip };
+  })();
+
   // ---------------- Pro rodiče ----------------
   function showInfo() {
     const secure = window.isSecureContext;
@@ -558,7 +637,7 @@ const App = (() => {
 
   // ---------------- Vstupy do obrazovek ----------------
   const enterHooks = {
-    home: () => { scheduleIncoming(); Chat.updateBadge(); },
+    home: () => { scheduleIncoming(); Chat.updateBadge(); Profile.renderChip(); },
     contacts: () => renderContacts(),
     call: (p) => Call.start(p),
     chats: () => Chat.renderList(),
@@ -576,7 +655,7 @@ const App = (() => {
   function init() {
     paintArt();
     clock(); setInterval(clock, 10000);
-    Call.init(); Chat.init(); Pexeso.init();
+    Call.init(); Chat.init(); Pexeso.init(); Profile.init();
 
     $('#btn-start').addEventListener('click', async () => {
       Sound.unlock();
@@ -612,7 +691,7 @@ const App = (() => {
     $('#btn-info-close').addEventListener('click', () => $('#info').classList.remove('on'));
     $('#opt-incoming').addEventListener('change', (e) => { Store.set('optIncoming', e.target.checked); scheduleIncoming(); });
     $('#opt-readmsg').addEventListener('change', (e) => Store.set('optReadMsg', e.target.checked));
-    $('#btn-forget').addEventListener('click', () => { Store.set('kidName', null); showInfo(); });
+    $('#btn-forget').addEventListener('click', () => { Store.set('kidName', null); Store.set('kidNameFromProfile', false); Profile.renderChip(); showInfo(); });
 
     // když se telefon zamkne nebo přepne aplikace, ukončíme hovor
     document.addEventListener('visibilitychange', () => {

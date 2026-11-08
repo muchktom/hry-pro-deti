@@ -9,6 +9,7 @@ Dětská „telefonní aplikace“ do prohlížeče (Chrome na Androidu).
   Občas některá postavička sama zavolá (dá se vypnout v ⚙️).
 - **Zprávy** – chat s postavičkami, nálepky s emoji, diktování 🎤, odpovědi se čtou nahlas.
 - **Hry** – Gábino pexeso (6 / 12 / 16 / 20 kartiček).
+- **Profil** – na domovské obrazovce nahoře: dítě si vybere obrázek a napíše nebo řekne své jméno. Postavičky ho pak oslovují.
 
 Žádné knihovny ani build – stačí obyčejné statické soubory.
 

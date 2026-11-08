@@ -189,7 +189,7 @@ const Brain = (() => {
   }
 
   // oprava dřív špatně uloženého jména (např. "Dělat")
-  { const old = Store.get('kidName'); if (old && !looksLikeName(old)) Store.set('kidName', null); }
+  { const old = Store.get('kidName'); if (old && !Store.get('kidNameFromProfile') && !looksLikeName(old)) Store.set('kidName', null); }
 
   function answerPending(c, ctx, n, tokens, raw, intents) {
     const p = ctx.pending; ctx.pending = null;
@@ -198,7 +198,7 @@ const Brain = (() => {
       case 'name': {
         const nm = extractName(raw);
         if (nm && nm.length < 16) {
-          Store.set('kidName', nm);
+          Store.set('kidName', nm); Store.set('kidNameFromProfile', false);
           return R(`Ahoj, ${nm}! To je ale krásné jméno! Budu si ho pamatovat.`, { mood: 'love', sfx: c.sfx });
         }
         return null;
@@ -256,7 +256,7 @@ const Brain = (() => {
 
     if (intents.myname) {
       const nm = extractName(raw);
-      if (nm) { Store.set('kidName', nm); add(R(`Ahoj, ${nm}! Moc ${c.fem ? 'ráda' : 'rád'} tě poznávám! Já jsem ${c.name}.`, { mood: 'love', sfx: c.sfx })); }
+      if (nm) { Store.set('kidName', nm); Store.set('kidNameFromProfile', false); add(R(`Ahoj, ${nm}! Moc ${c.fem ? 'ráda' : 'rád'} tě poznávám! Já jsem ${c.name}.`, { mood: 'love', sfx: c.sfx })); }
     }
     add(friendTalk(c, n, tokens));
     if (intents.love) add(R(fill(c, pick(c.love)), { mood: 'love', prop: '💖', sfx: 'magic' }));
@@ -367,5 +367,5 @@ const Brain = (() => {
     return R(pick(['Mňau? Klepni na mikrofon a řekni mi něco!', 'Tak já tu počkám. Klepni na mikrofon, až budeš chtít mluvit!']), { mood: 'happy' });
   }
 
-  return { respond, greeting, nudge, newContext, ask, norm };
+  return { respond, greeting, nudge, newContext, ask, norm, extractName };
 })();

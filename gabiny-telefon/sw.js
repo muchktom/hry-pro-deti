@@ -1,5 +1,5 @@
 // Offline podpora: síť má přednost, při výpadku se použije uložená verze.
-const CACHE = 'gabin-telefon-v7';
+const CACHE = 'gabin-telefon-v8';
 const FILES = ['./', 'index.html', 'css/style.css', 'js/art.js', 'js/audio.js', 'js/characters.js', 'js/brain.js',
   'js/pexeso.js', 'js/app.js', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png',
   'apple-touch-icon.png'];

@@ -35,6 +35,11 @@
 
     <!-- Domovská obrazovka -->
     <section id="home" class="screen">
+      <button class="profile-chip" id="profile-chip" aria-label="Můj profil">
+        <span class="pc-avatar" id="pc-avatar">🐱</span>
+        <span class="pc-text" id="pc-text">Jak se jmenuješ?</span>
+        <span class="pc-edit">✏️</span>
+      </button>
       <div class="widget">
         <div class="widget-chars">
           <button class="wchar" data-say="gabi"><div data-art="gabi"></div><span>Gábi</span></button>
@@ -161,6 +166,26 @@
         <label class="row"><input type="checkbox" id="opt-readmsg"> Číst zprávy nahlas</label>
         <button class="big-btn alt" id="btn-forget">Zapomenout jméno dítěte</button>
         <button class="big-btn" id="btn-info-close">Hotovo</button>
+      </div>
+    </div>
+
+    <!-- Profil dítěte -->
+    <div class="info" id="profile">
+      <div class="info-card profile-card">
+        <h3>Můj profil</h3>
+        <div class="pf-preview">
+          <div class="pf-avatar" id="pf-avatar">🐱</div>
+          <div class="pf-name" id="pf-preview-name"></div>
+        </div>
+        <p class="pf-label">Vyber si obrázek:</p>
+        <div class="pf-avatars" id="pf-avatars"></div>
+        <p class="pf-label">Jak se jmenuješ?</p>
+        <div class="pf-name-row">
+          <input id="pf-name" type="text" maxlength="14" autocomplete="off" autocapitalize="words" placeholder="Tvoje jméno" enterkeyhint="done">
+          <button type="button" class="cbtn" id="pf-mic" aria-label="Říct jméno">🎤</button>
+        </div>
+        <button class="big-btn" id="pf-save">✅ Hotovo</button>
+        <button class="big-btn alt" id="pf-cancel">Zpět</button>
       </div>
     </div>
 
