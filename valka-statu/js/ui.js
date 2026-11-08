@@ -56,19 +56,19 @@ function showOverlay(kind) {
   const diffBtns = Object.entries(DIFF).map(([k, d]) => `<button data-d="${k}" class="${k === diff ? 'cur' : ''}" title="Obtížnost ${k}"><span class="num">${k}</span><span class="emo">${d.emoji}</span></button>`).join('');
   if (kind === 'menu') {
     ovBox.innerHTML = `<h1><span class="b">VÁLKA</span> <span class="r">STÁTŮ</span></h1>
-      <p>Znič nepřátelskou základnu dřív, než oni zničí tu tvoji!</p>
-      <ul>
-        <li><b>Pošli vojáky a stroje:</b> vyber cestu (klikni na ni nebo 1 / 2 / 3) a pak klikni na kartičku dole – <b>Voják</b>, <b>Tank</b>, <b>Dělo</b> nebo <b>Vrtulník</b>.</li>
-        <li><b>🚁 Vrtulník létá:</b> tanky a děla na něj nedostřelí a miny mu neublíží. Sestřelí ho jen <b>voják</b>, jiný vrtulník nebo věž.</li>
-        <li><b>Zachraň zraněné:</b> když má někdo 🩹 nebo 🔧, <b>chyť ho myší a přetáhni</b> – vojáka do <b>OŠETŘOVNY</b>, tank a dělo do <b>OPRAVNY</b>. Až se uzdraví, čeká v <b>záloze</b> a pošleš ho znovu <b>zadarmo</b>.</li>
-        <li>Vojáka můžeš přetáhnout taky na jinou cestu (jen dozadu, ne dopředu).</li>
-        <li><b>💣 Mina:</b> polož ji na svou půlku cesty – nepřítel na ni najede a bum!</li>
-        <li><b>Věž:</b> tvoje základna střílí sama. Za peníze ji vylepšíš ⭐.</li>
-        <li><b>❤️ Zásahy:</b> klikni na srdíčko nahoře a uvidíš, kolik kdo vydrží.</li>
-        <li>Nepřítel na druhé straně hraje <b>sám</b> a dělá úplně to samé!</li>
-      </ul>
-      <p><b>Jak těžké to má být?</b> <small>(1 = nejlehčí, 4 = nejtěžší)</small></p>
+      <p class="goal">Znič nepřátelskou základnu dřív, než oni zničí tu tvoji!</p>
+      <p class="pick">Vyber obtížnost a hraj! <small>(1 = nejlehčí, 4 = nejtěžší)</small></p>
       <div class="diff">${diffBtns}</div>
+      <details class="howto">
+        <summary>❓ Jak se hraje?</summary>
+        <ul>
+          <li>🛣️ Vyber cestu <b>1 / 2 / 3</b> a pošli jednotku kartičkou dole.</li>
+          <li>🩹 Zraněné <b>přetáhni</b>: vojáky do ošetřovny, stroje do opravny. Pak je pošleš <b>zadarmo</b>.</li>
+          <li>🚁 Vrtulník sestřelí jen <b>voják</b>, vrtulník a věž.</li>
+          <li>💣 Minu polož na <b>svou</b> půlku cesty.</li>
+          <li>⭐ Věž na základně vylepšíš za peníze.</li>
+        </ul>
+      </details>
       <a class="allgames" href="../">← Všechny hry</a>`;
   } else {
     const win = kind === 'win';

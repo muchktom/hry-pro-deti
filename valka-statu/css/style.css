@@ -49,3 +49,12 @@ canvas#game{display:block;border-radius:8px;touch-action:none;box-shadow:0 4px 2
 #hearts canvas{width:56px;height:38px}
 .allgames{display:inline-block;margin-top:18px;padding:10px 18px;font-size:18px;color:var(--text);background:var(--panel2);border:2px solid #0006;border-radius:10px;text-decoration:none;touch-action:manipulation}
 .allgames:hover{filter:brightness(1.15)}
+.box .goal{font-size:18px;margin:4px 0 14px}
+.box .pick{margin:0}
+.box .diff{margin-top:10px}
+.howto{margin-top:16px;text-align:left;background:#0002;border-radius:12px;padding:6px 14px}
+.howto summary{cursor:pointer;font-weight:bold;font-size:18px;padding:6px 0;text-align:center;list-style:none}
+.howto summary::-webkit-details-marker{display:none}
+.howto ul{margin:6px 0 8px;padding-left:4px;list-style:none;font-size:16px;line-height:1.45}
+.howto li{margin:4px 0}
+@media (max-height:520px){.box{padding:12px 18px}.box h1{font-size:30px;margin-bottom:2px}.box .goal{margin:2px 0 8px;font-size:16px}.box .diff button .num{font-size:30px}.allgames{margin-top:10px;padding:6px 14px}}
