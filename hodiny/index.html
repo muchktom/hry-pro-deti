@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Hodinový hon</title>
+<meta name="theme-color" content="#5fb3e6">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="game">
+  <div id="sky">
+    <div class="sun"></div>
+    <div class="cloud" style="top:8%;  animation-duration:70s; animation-delay:-10s; --s:1"></div>
+    <div class="cloud" style="top:22%; animation-duration:95s; animation-delay:-55s; --s:.7"></div>
+    <div class="cloud" style="top:40%; animation-duration:120s; animation-delay:-30s; --s:.5"></div>
+    <div class="cloud" style="top:15%; animation-duration:85s; animation-delay:-70s; --s:.85"></div>
+    <svg id="hills" viewBox="0 0 1000 200" preserveAspectRatio="none">
+      <path d="M0 120 Q150 30 320 110 T650 90 T1000 100 V200 H0Z" fill="#90be6d"/>
+      <path d="M0 160 Q200 90 420 150 T800 140 T1000 150 V200 H0Z" fill="#6a994e"/>
+      <g fill="#386641">
+        <circle cx="120" cy="150" r="22"/><rect x="116" y="160" width="8" height="25" fill="#6b4226"/>
+        <circle cx="860" cy="135" r="26"/><rect x="856" y="148" width="8" height="30" fill="#6b4226"/>
+        <circle cx="560" cy="160" r="18"/><rect x="557" y="168" width="7" height="22" fill="#6b4226"/>
+      </g>
+    </svg>
+  </div>
+
+  <div id="field"></div>
+
+  <div id="task">
+    <div class="label">Úkol:</div>
+    <div id="taskTime">--:--</div>
+    <div id="taskBar"><div id="taskBarFill"></div></div>
+  </div>
+
+  <div id="hud">
+    <div class="grp">Životy: <span id="hearts"></span></div>
+    <div class="grp">Skóre: <span id="scoreVal">0</span> <span id="combo"></span></div>
+    <div class="grp">Úroveň: <span id="levelVal">1</span></div>
+    <div class="grp">
+      <button class="iconbtn" id="soundBtn" title="Zvuk">🔊</button>
+      <button class="iconbtn" id="menuBtn" title="Menu (Esc)">☰</button>
+    </div>
+  </div>
+
+  <!-- Úvodní obrazovka -->
+  <div class="screen show" id="startScreen">
+    <div class="card">
+      <h1>⏰ Hodinový hon</h1>
+      <div class="subtitle">Z nebe padají hodiny. Trefuj ty, které ukazují <b>zadaný čas</b>!</div>
+      <h2>Vyber úroveň</h2>
+      <div class="levels" id="levelPicker"></div>
+      <div class="lvlDesc" id="levelDesc"></div>
+      <div class="settings">
+        <label class="toggle"><input type="checkbox" id="h24Toggle"> <span>Čas přes 12 hodin <small>(13:00 – 23:59)</small></span></label>
+        <div class="speedPick"><span>Rychlost:</span> <span id="speedPicker"></span></div>
+      </div>
+      <button class="btn" id="playBtn">▶ Hrát</button><br>
+      <a class="btn grey small" href="../">← Všechny hry</a>
+      <div class="row" style="margin-top:10px">
+        <div>
+          <h2>🏆 Nejlepší hráči</h2>
+          <div id="boardStart"></div>
+        </div>
+      </div>
+      <div class="help">
+        <b>Krátká ručička</b> ukazuje hodiny, <b>dlouhá ručička</b> minuty.<br>
+        <span id="help24">Odpoledne se hodiny počítají dál: <b>13:00</b> je <b>1</b> hodina, <b>19:30</b> je půl <b>osmé</b>.<br></span>
+        Za špatnou trefu přijdeš o ❤. Když správné hodiny nenajdeš včas, taky přijdeš o ❤.<br>
+        Každých 5 správných tref = nová úroveň.
+      </div>
+    </div>
+  </div>
+
+  <!-- Pauza -->
+  <div class="screen" id="pauseScreen">
+    <div class="card" style="max-width:420px">
+      <h1>Pauza</h1>
+      <div style="margin-top:18px">
+        <button class="btn" id="resumeBtn">▶ Pokračovat</button><br>
+        <button class="btn grey" id="quitBtn">Ukončit hru</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Konec hry -->
+  <div class="screen" id="overScreen">
+    <div class="card" style="max-width:560px">
+      <h1>Konec hry</h1>
+      <div class="subtitle">Došly ti životy. Získal(a) jsi:</div>
+      <div class="bigscore" id="finalScore">0</div>
+      <div class="subtitle" id="finalInfo"></div>
+      <div id="saveBox">
+        <input id="nameInput" maxlength="16" placeholder="Tvoje jméno">
+        <button class="btn small orange" id="saveBtn">Uložit</button>
+      </div>
+      <div id="boardOver" style="margin-top:8px"></div>
+      <div style="margin-top:10px">
+        <button class="btn" id="againBtn">↻ Hrát znovu</button>
+        <button class="btn grey" id="toMenuBtn">Menu</button>
+        <a class="btn grey small" href="../">← Všechny hry</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/clock.js"></script>
+<script src="js/game.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
