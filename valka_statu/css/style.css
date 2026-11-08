@@ -1,0 +1,46 @@
+:root{--blue:#2f6fd6;--red:#d63a2f;--bg:#1d2b1f;--panel:#2b3a2d;--panel2:#3a4d3c;--text:#fff8e7;--gold:#ffd34d}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:"Comic Sans MS","Chalkboard SE","Trebuchet MS",sans-serif;overflow:hidden;user-select:none;-webkit-user-select:none}
+#app{display:flex;flex-direction:column;height:100%;align-items:center}
+#top{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 12px;background:var(--panel)}
+.side{display:flex;align-items:center;gap:10px;min-width:0}
+.side.enemy{flex-direction:row-reverse}
+.money{font-size:22px;font-weight:bold;color:var(--gold);white-space:nowrap}
+.hpwrap{display:flex;flex-direction:column;gap:2px;font-size:13px}
+.bar{width:180px;max-width:28vw;height:14px;background:#0006;border-radius:7px;overflow:hidden;border:2px solid #0008}
+.bar i{display:block;height:100%;width:100%;transition:width .2s}
+.blue i{background:linear-gradient(#6fa0ff,#2f6fd6)}
+.red i{background:linear-gradient(#ff8a7f,#d63a2f)}
+.center{display:flex;gap:6px}
+button{font-family:inherit;color:var(--text);background:var(--panel2);border:2px solid #0006;border-radius:10px;padding:6px 10px;font-size:16px;cursor:pointer}
+button:hover{filter:brightness(1.15)}
+button.on{background:#c0392b}
+#stage{flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:0}
+canvas#game{display:block;border-radius:8px;touch-action:none;box-shadow:0 4px 20px #0008}
+#bottom{width:100%;display:flex;align-items:stretch;justify-content:center;gap:8px;padding:6px 8px;background:var(--panel);flex-wrap:wrap}
+.lanes{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:13px;padding-right:6px}
+.lanes div{display:flex;gap:4px}
+.lanes button{padding:3px 10px;font-size:15px}
+.lanes button.sel{background:var(--blue)}
+.card{display:flex;flex-direction:column;align-items:center;padding:4px 8px 6px;min-width:96px;position:relative;line-height:1.1}
+.card canvas{width:64px;height:44px}
+.card b{font-size:15px}
+.card .cost{font-size:13px;color:var(--gold)}
+.card .cost.free{color:#7dff8a}
+.card kbd{position:absolute;top:2px;right:5px;font-size:11px;opacity:.6;font-family:inherit}
+.card.dis{opacity:.45}
+.card.sel{outline:3px solid var(--gold)}
+#overlay{position:fixed;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;z-index:10}
+#overlay.hide,#hearts.hide{display:none}
+.box{background:var(--panel);border:3px solid #0008;border-radius:16px;padding:22px 28px;max-width:720px;max-height:92vh;overflow:auto;text-align:center;box-shadow:0 10px 40px #000}
+.box h1{margin:0 0 8px;font-size:42px;letter-spacing:2px}
+.box h1 .b{color:#6fa0ff}.box h1 .r{color:#ff7a6f}
+.box ul{text-align:left;font-size:16px;line-height:1.5;padding-left:20px}
+.box .diff{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.box .diff button{font-size:20px;padding:10px 18px}
+#hearts{position:fixed;bottom:110px;left:50%;transform:translateX(-50%);z-index:5;cursor:pointer}
+#hearts .box{padding:10px 16px;text-align:left;background:#2b3a2dee}
+#hearts table{border-collapse:collapse}
+#hearts td{padding:4px 8px;vertical-align:middle;font-size:15px}
+#hearts td.h{color:#ff4057;font-size:18px;letter-spacing:1px}
+#hearts canvas{width:56px;height:38px}

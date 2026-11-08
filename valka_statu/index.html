@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Válka států</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <div id="top">
+    <div class="side">
+      <div class="money">💰 <span id="money">0</span></div>
+      <div class="hpwrap">MOJE ZÁKLADNA <div class="bar blue"><i id="hp0"></i></div></div>
+    </div>
+    <div class="center">
+      <button id="btnHearts" title="Ukáž, kolik kdo vydrží zásahů">❤️ Zásahy</button>
+      <button id="btnPause" title="Pauza (mezerník)">⏸</button>
+      <button id="btnSound" title="Zvuk">🔊</button>
+      <button id="btnMenu" title="Nová hra">🏠</button>
+    </div>
+    <div class="side enemy">
+      <div class="money" style="color:#ffb0a8">🤖</div>
+      <div class="hpwrap" style="text-align:right">NEPŘÍTEL <div class="bar red"><i id="hp1"></i></div></div>
+    </div>
+  </div>
+  <div id="stage"><canvas id="game" width="1280" height="720"></canvas></div>
+  <div id="bottom">
+    <div class="lanes">Cesta
+      <div><button data-lane="0">1</button><button data-lane="1">2</button><button data-lane="2">3</button></div>
+    </div>
+    <button class="card" data-t="vojak"><kbd>Q</kbd><canvas width="128" height="88"></canvas><b>Voják</b><span class="cost"></span></button>
+    <button class="card" data-t="tank"><kbd>W</kbd><canvas width="128" height="88"></canvas><b>Tank</b><span class="cost"></span></button>
+    <button class="card" data-t="delo"><kbd>E</kbd><canvas width="128" height="88"></canvas><b>Dělo</b><span class="cost"></span></button>
+    <button class="card" data-t="mina"><kbd>R</kbd><canvas width="128" height="88"></canvas><b>Mina</b><span class="cost"></span></button>
+    <button class="card" data-t="vez"><kbd>T</kbd><canvas width="128" height="88"></canvas><b>Věž</b><span class="cost"></span></button>
+  </div>
+</div>
+
+<div id="hearts" class="hide"><div class="box">
+  <b>❤️ Kolik kdo vydrží zásahů</b>
+  <table id="heartsTable"></table>
+  <small>Klikni na tabulku a zmizí. Srdíčka nad vojáky zůstanou, dokud znovu neklikneš na ❤️.</small>
+</div></div>
+
+<div id="overlay"><div class="box" id="ovBox"></div></div>
+
+<script src="js/config.js"></script>
+<script src="js/state.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/sprites.js"></script>
+<script src="js/game.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/input.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
