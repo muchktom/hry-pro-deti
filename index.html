@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#fdf6e3">
+  <meta name="theme-color" content="#ffe9a8">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Hry">
@@ -11,46 +11,123 @@
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --ink: #2b2d42;
+      --font: 'Baloo 2', 'Comic Sans MS', 'Chalkboard SE', system-ui, sans-serif;
+    }
     * { box-sizing: border-box; }
     html { -webkit-text-size-adjust: 100%; }
     body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: #fdf6e3; color: #222; margin: 0;
-      min-height: 100dvh;
-      padding: max(1.5rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
+      margin: 0; min-height: 100dvh; color: var(--ink); font-family: var(--font);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255,107,107,.5) 0 6px, transparent 7px) 0 0 / 230px 190px,
+        radial-gradient(circle at 70% 40%, rgba(77,150,255,.45) 0 5px, transparent 6px) 40px 70px / 270px 210px,
+        radial-gradient(circle at 40% 80%, rgba(107,203,119,.5) 0 5px, transparent 6px) 90px 20px / 310px 250px,
+        radial-gradient(circle at 85% 85%, rgba(176,108,255,.45) 0 4px, transparent 5px) 15px 120px / 190px 290px,
+        linear-gradient(170deg, #fff4c2 0%, #ffe0b0 55%, #ffc9c9 100%) fixed;
+      padding: max(1.25rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
                max(1.5rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
       -webkit-user-select: none; user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
-    main { max-width: 640px; margin: 0 auto; }
-    h1 { text-align: center; font-size: clamp(2rem, 8vw, 3rem); margin: 0 0 1.5rem; }
-    ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem;
-         grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-    li { display: grid; }
-    a {
-      display: flex; align-items: center; justify-content: center;
-      min-height: 96px; padding: 1.25rem;
-      background: #fff; border-radius: 20px;
-      font-size: clamp(1.5rem, 6vw, 2rem); font-weight: 600;
-      text-decoration: none; color: #1a5fb4; text-align: center;
-      box-shadow: 0 4px 0 #c9d6ea, 0 6px 12px rgba(0,0,0,.08);
-      touch-action: manipulation;
-      transition: transform .08s, box-shadow .08s;
-      -webkit-touch-callout: none;
+    main { max-width: 980px; margin: 0 auto; }
+
+    header { display: flex; flex-direction: column; align-items: center; margin: 0 0 1.5rem; }
+    header img {
+      width: 84px; height: 84px; border-radius: 24%;
+      box-shadow: 0 6px 0 rgba(0,0,0,.12), 0 10px 20px rgba(160,90,0,.2);
+      animation: bob 3s ease-in-out infinite;
     }
-    a:active { transform: translateY(4px); box-shadow: 0 0 0 #c9d6ea, 0 2px 4px rgba(0,0,0,.08); background: #e8f0fe; }
-    a:focus-visible { outline: 4px solid #1a5fb4; outline-offset: 4px; }
-    @media (hover: hover) { a:hover { background: #e8f0fe; } }
+    h1 {
+      margin: .6rem 0 0; font-size: clamp(2.4rem, 10vw, 3.6rem); font-weight: 800; line-height: 1;
+      color: #fff; letter-spacing: .5px;
+      text-shadow: 0 3px 0 #f77f00, 0 6px 0 #c95f00, 0 10px 18px rgba(150,70,0,.3);
+    }
+    .sub { margin: .5rem 0 0; font-size: 1.2rem; font-weight: 600; color: #8a5a00; }
+
+    ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+    li { display: grid; animation: popIn .45s cubic-bezier(.2,1.4,.4,1) backwards; }
+    li:nth-child(2) { animation-delay: .08s; }
+    li:nth-child(3) { animation-delay: .16s; }
+    li:nth-child(4) { animation-delay: .24s; }
+    li:nth-child(5) { animation-delay: .32s; }
+
+    .game {
+      --c: #2f6fd6; --c-dark: #1f4fa0; --c-soft: #e6efff;
+      display: flex; align-items: center; gap: 1rem;
+      padding: .9rem 1.1rem .9rem .9rem; min-height: 112px;
+      background: #fff; border: 4px solid var(--c); border-radius: 28px;
+      box-shadow: 0 7px 0 var(--c-dark), 0 12px 22px rgba(0,0,0,.12);
+      text-decoration: none; color: var(--ink);
+      touch-action: manipulation; -webkit-touch-callout: none;
+      transition: transform .1s, box-shadow .1s;
+    }
+    .game img {
+      width: 88px; height: 88px; flex: none; border-radius: 24%;
+      box-shadow: 0 4px 0 rgba(0,0,0,.15);
+      transition: transform .2s;
+    }
+    .game .text { display: flex; flex-direction: column; min-width: 0; }
+    .game b { font-size: clamp(1.45rem, 6vw, 1.8rem); font-weight: 800; line-height: 1.1; }
+    .game span { margin-top: .25rem; font-size: 1.05rem; font-weight: 600; line-height: 1.2; color: var(--c-dark); }
+    .game::after {
+      content: "▶"; margin-left: auto; flex: none; display: grid; place-items: center;
+      width: 48px; height: 48px; border-radius: 50%; font-size: 1.2rem; padding-left: 3px;
+      background: var(--c); color: #fff; box-shadow: 0 3px 0 var(--c-dark);
+    }
+    .game:active { transform: translateY(6px); box-shadow: 0 1px 0 var(--c-dark), 0 3px 8px rgba(0,0,0,.12); background: var(--c-soft); }
+    .game:focus-visible { outline: 5px solid var(--ink); outline-offset: 4px; }
+    @media (hover: hover) {
+      .game:hover { background: var(--c-soft); }
+      .game:hover img { transform: rotate(-6deg) scale(1.06); }
+    }
+
+    .valka   { --c: #2f6fd6; --c-dark: #1f4fa0; --c-soft: #e6efff; }
+    .gabi    { --c: #c06cf0; --c-dark: #8b3dbf; --c-soft: #f6e8ff; }
+    .hodiny  { --c: #f77f00; --c-dark: #b35c00; --c-soft: #fff0dc; }
+
+    /* Wider screens: tiles with the icon on top */
+    @media (min-width: 700px) {
+      ul { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.4rem; }
+      .game { flex-direction: column; text-align: center; padding: 1.4rem 1.2rem 1.2rem; }
+      .game img { width: 128px; height: 128px; }
+      .game .text { align-items: center; }
+      .game::after { margin: auto 0 0; }
+      .game .text { margin-bottom: .8rem; }
+    }
+
+    @keyframes bob { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-6px) rotate(3deg); } }
+    @keyframes popIn { from { opacity: 0; transform: scale(.85) translateY(12px); } }
+    @media (prefers-reduced-motion: reduce) {
+      header img, li { animation: none; }
+      .game, .game img { transition: none; }
+    }
   </style>
 </head>
 <body>
   <main>
-    <h1>Hry pro děti</h1>
+    <header>
+      <img src="icon.svg" alt="">
+      <h1>Hry pro děti</h1>
+      <p class="sub">Vyber si hru!</p>
+    </header>
     <ul>
-      <li><a href="valka-statu/">Válka států</a></li>
-      <li><a href="gabiny-telefon/">Gábin kouzelný telefon</a></li>
-      <li><a href="hodiny/">Hodinový hon</a></li>
+      <li><a class="game valka" href="valka-statu/">
+        <img src="valka-statu/icon.svg" alt="">
+        <div class="text"><b>Válka států</b><span>Znič nepřátelskou základnu!</span></div>
+      </a></li>
+      <li><a class="game gabi" href="gabiny-telefon/">
+        <img src="gabiny-telefon/icon.svg" alt="">
+        <div class="text"><b>Gábin kouzelný telefon</b><span>Volej a piš si s postavičkami</span></div>
+      </a></li>
+      <li><a class="game hodiny" href="hodiny/">
+        <img src="hodiny/icon.svg" alt="">
+        <div class="text"><b>Hodinový hon</b><span>Trefuj hodiny se správným časem</span></div>
+      </a></li>
     </ul>
   </main>
 </body>
