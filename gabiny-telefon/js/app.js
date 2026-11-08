@@ -61,7 +61,7 @@ const App = (() => {
     const btn = $(`.wchar[data-say="${id}"]`);
     const art = btn.querySelector('div');
     const lines = id === 'gabi'
-      ? ['Ahoj! Já jsem Gábi! Chceš si zavolat?', 'Mňau! Zahrajeme si pexeso?', 'Napiš mi zprávu! Ráda ti odpovím!', 'Kočičí ouška, raz, dva, tři!']
+      ? ['Ahoj! Já jsem Gábi! Chceš si zavolat?', 'Mňau! Zahrajeme si pexeso?', 'Rybočka má bublinky a Dortě peče! Mrkni do her!', 'Napiš mi zprávu! Ráda ti odpovím!', 'Kočičí ouška, raz, dva, tři!']
       : ['Hihihi! Ahoj! Já jsem Pandy!', 'Zavolej mi! Budeme se mazlit!', 'Mám hlad! Nemáš sušenku?', 'Hop! Hop! Hihihi!'];
     const t = text || pick(lines);
     $('#home-bubble').textContent = t;
@@ -645,18 +645,22 @@ const App = (() => {
     chat: (p) => Chat.open(p),
     games: () => { },
     pexeso: () => Pexeso.showSetup(),
+    bubliny: () => Bubbles.showSetup(),
+    peceni: () => Baking.showSetup(),
     incoming: () => { },
   };
   leaveHooks.call = () => Call.end(true);
   leaveHooks.chat = () => Chat.leave();
   leaveHooks.incoming = () => stopIncomingRing();
   leaveHooks.pexeso = () => Voice.stop();
+  leaveHooks.bubliny = () => Bubbles.leave();
+  leaveHooks.peceni = () => Baking.leave();
 
   // ---------------- Start ----------------
   function init() {
     paintArt();
     clock(); setInterval(clock, 10000);
-    Call.init(); Chat.init(); Pexeso.init(); Profile.init();
+    Call.init(); Chat.init(); Pexeso.init(); Bubbles.init(); Baking.init(); Profile.init();
 
     $('#btn-start').addEventListener('click', async () => {
       Sound.unlock();

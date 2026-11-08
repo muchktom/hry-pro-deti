@@ -129,8 +129,14 @@
           <div class="gc-pic">🃏<div data-art="gabi" class="gc-gabi"></div></div>
           <div class="gc-text"><b>Gábino pexeso</b><span>Najdi dvojice obrázků!</span></div>
         </button>
-        <div class="game-card soon"><div class="gc-pic">🫧</div><div class="gc-text"><b>Bubliny s Rybočkou</b><span>Už brzy…</span></div></div>
-        <div class="game-card soon"><div class="gc-pic">🧁</div><div class="gc-text"><b>Pečení s Dortě</b><span>Už brzy…</span></div></div>
+        <button class="game-card" data-go="bubliny">
+          <div class="gc-pic gc-sea">🫧<div data-art="rybocka" class="gc-gabi"></div></div>
+          <div class="gc-text"><b>Bubliny s Rybočkou</b><span>Praskej barevné bublinky!</span></div>
+        </button>
+        <button class="game-card" data-go="peceni">
+          <div class="gc-pic gc-bake">🧁<div data-art="dorte" class="gc-gabi"></div></div>
+          <div class="gc-text"><b>Pečení s Dortě</b><span>Upeč a ozdob dort!</span></div>
+        </button>
       </div>
     </section>
 
@@ -153,6 +159,58 @@
           <p id="px-win-text"></p>
           <button class="big-btn" id="px-again">🔁 Hrát znovu</button>
           <button class="big-btn alt" id="px-other">🃏 Jiná velikost</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bubliny s Rybočkou -->
+    <section id="bubliny" class="screen">
+      <header class="topbar"><button class="back" data-back>‹</button><h2>Bubliny</h2><div class="px-stats" id="bb-stats"></div></header>
+      <div class="bb-setup" id="bb-setup">
+        <div class="bb-setup-art" id="bb-setup-art" data-art="rybocka"></div>
+        <button class="big-btn bb-mode" data-mode="free">🫧 Praskej bublinky</button>
+        <button class="big-btn bb-mode alt" data-mode="color">🎨 Hledej barvičky</button>
+        <button class="big-btn bb-mode sea" data-mode="animal">🐠 Najdi zvířátko</button>
+      </div>
+      <div class="bb-sea" id="bb-sea">
+        <div class="bb-weed w1"></div><div class="bb-weed w2"></div><div class="bb-weed w3"></div>
+        <button class="bb-target" id="bb-target" aria-label="Co hledáme"></button>
+        <button class="bb-ryba" id="bb-ryba" data-art="rybocka" aria-label="Rybočka"></button>
+      </div>
+      <div class="px-win" id="bb-win">
+        <div class="px-win-card">
+          <div class="px-win-art" id="bb-win-art" data-art="rybocka"></div>
+          <h3>Blub blub! Hurá!</h3>
+          <div class="px-stars">🫧🫧🫧</div>
+          <p id="bb-win-text"></p>
+          <button class="big-btn" id="bb-again">🔁 Hrát znovu</button>
+          <button class="big-btn alt" id="bb-other">🫧 Jiná hra</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pečení s Dortě -->
+    <section id="peceni" class="screen">
+      <header class="topbar"><button class="back" data-back>‹</button><h2>Pečení</h2><div class="bk-steps" id="bk-steps"></div></header>
+      <div class="bk-stage" id="bk-stage">
+        <div class="bk-host">
+          <button class="bk-dorte" id="bk-dorte" data-art="dorte" aria-label="Dortě"></button>
+          <div class="bk-bubble" id="bk-bubble"></div>
+        </div>
+        <div class="bk-area" id="bk-area"></div>
+        <div class="bk-tray" id="bk-tray"></div>
+        <button class="big-btn bk-done" id="bk-done">✅ Hotovo!</button>
+      </div>
+      <div class="px-win" id="bk-win">
+        <div class="px-win-card">
+          <div class="bk-win-row">
+            <div class="bk-win-cake bk-cake" id="bk-win-cake"></div>
+            <div class="px-win-art bk-win-art" id="bk-win-art" data-art="dorte"></div>
+          </div>
+          <h3>Mňam mňam!</h3>
+          <p>To je ale nádherný dort!</p>
+          <button class="big-btn" id="bk-again">🧁 Péct znovu</button>
+          <button class="big-btn alt" data-back>🃏 Jiná hra</button>
         </div>
       </div>
     </section>
@@ -197,6 +255,9 @@
   <script src="js/characters.js"></script>
   <script src="js/brain.js"></script>
   <script src="js/pexeso.js"></script>
+  <script src="js/gamekit.js"></script>
+  <script src="js/bubbles.js"></script>
+  <script src="js/baking.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

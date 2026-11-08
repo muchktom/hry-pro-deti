@@ -8,7 +8,10 @@ Dětská „telefonní aplikace“ do prohlížeče (Chrome na Androidu).
   Když mikrofon nefunguje, dají se použít obrázková tlačítka (Ahoj, Vtip, Zazpívej…).
   Občas některá postavička sama zavolá (dá se vypnout v ⚙️).
 - **Zprávy** – chat s postavičkami, nálepky s emoji, diktování 🎤, odpovědi se čtou nahlas.
-- **Hry** – Gábino pexeso (6 / 12 / 16 / 20 kartiček).
+- **Hry**
+  - Gábino pexeso (6 / 12 / 16 / 20 kartiček).
+  - Bubliny s Rybočkou – praskání bublinek: volně, podle barvy (Rybočka řekne barvu) nebo podle zvířátka.
+  - Pečení s Dortě – přísady do mísy, míchání prstem, trouba, výběr polevy a zdobení dortíku nebo dortu.
 - **Profil** – na domovské obrazovce nahoře: dítě si vybere obrázek a napíše nebo řekne své jméno. Postavičky ho pak oslovují.
 
 Žádné knihovny ani build – stačí obyčejné statické soubory.
@@ -42,4 +45,7 @@ a otevřít http://localhost:8000 v Chromu (localhost se počítá jako zabezpe�
 - `js/art.js` – kreslené postavičky (SVG) s výrazy
 - `js/audio.js` – zvukové efekty, čtení nahlas, poslouchání
 - `js/pexeso.js` – pexeso
+- `js/gamekit.js` – společní pomocníci miniher (mluvící postavička, pochvaly)
+- `js/bubbles.js` – Bubliny s Rybočkou
+- `js/baking.js` – Pečení s Dortě
 - `js/app.js` – obrazovky, hovory, zprávy

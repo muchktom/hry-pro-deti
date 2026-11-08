@@ -1,7 +1,7 @@
 // Offline podpora: síť má přednost, při výpadku se použije uložená verze.
-const CACHE = 'gabin-telefon-v9';
+const CACHE = 'gabin-telefon-v10';
 const FILES = ['./', 'index.html', 'css/style.css', 'js/art.js', 'js/audio.js', 'js/characters.js', 'js/brain.js',
-  'js/pexeso.js', 'js/app.js', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png',
+  'js/pexeso.js', 'js/gamekit.js', 'js/bubbles.js', 'js/baking.js', 'js/app.js', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png',
   'apple-touch-icon.png'];
 
 self.addEventListener('install', (e) => {
