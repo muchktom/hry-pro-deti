@@ -2,16 +2,41 @@
 <html lang="cs">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fdf6e3">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <title>Hry pro děti</title>
   <style>
-    body { font-family: system-ui, sans-serif; background: #fdf6e3; color: #222; margin: 0; padding: 2rem 1rem; }
-    main { max-width: 600px; margin: 0 auto; }
-    h1 { text-align: center; }
-    ul { list-style: none; padding: 0; display: grid; gap: 1rem; }
-    a { display: block; padding: 1.25rem; background: #fff; border-radius: 12px; font-size: 1.5rem;
-        text-decoration: none; color: #1a5fb4; box-shadow: 0 2px 6px rgba(0,0,0,.1); text-align: center; }
-    a:hover { background: #e8f0fe; }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #fdf6e3; color: #222; margin: 0;
+      min-height: 100dvh;
+      padding: max(1.5rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
+               max(1.5rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+      -webkit-user-select: none; user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    main { max-width: 640px; margin: 0 auto; }
+    h1 { text-align: center; font-size: clamp(2rem, 8vw, 3rem); margin: 0 0 1.5rem; }
+    ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem;
+         grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    a {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 96px; padding: 1.25rem;
+      background: #fff; border-radius: 20px;
+      font-size: clamp(1.5rem, 6vw, 2rem); font-weight: 600;
+      text-decoration: none; color: #1a5fb4; text-align: center;
+      box-shadow: 0 4px 0 #c9d6ea, 0 6px 12px rgba(0,0,0,.08);
+      touch-action: manipulation;
+      transition: transform .08s, box-shadow .08s;
+      -webkit-touch-callout: none;
+    }
+    a:active { transform: translateY(4px); box-shadow: 0 0 0 #c9d6ea, 0 2px 4px rgba(0,0,0,.08); background: #e8f0fe; }
+    a:focus-visible { outline: 4px solid #1a5fb4; outline-offset: 4px; }
+    @media (hover: hover) { a:hover { background: #e8f0fe; } }
   </style>
 </head>
 <body>
