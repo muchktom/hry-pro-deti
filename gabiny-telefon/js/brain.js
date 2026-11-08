@@ -348,6 +348,7 @@ const Brain = (() => {
     { id: 'valecka', w: ['valeck'], other: ['Válečka spinká na polštáři. Pst, ať ji nevzbudíme!'] },
     { id: 'rybocka', w: ['ryboc'], other: ['Rybočka plave v bazénu a dělá bublinky. Blub blub!'] },
     { id: 'autena', w: ['auten'], other: ['Autěna jezdí po zahradě. Tú tú!'] },
+    { id: 'krabicka', w: ['krabick'], other: ['Krabička zrovna něco vyrábí z papíru a lepidla. Bude to krásné!', 'Krabička lepí třpytky. Celý stůl se leskne!'] },
   ];
 
   function friendTalk(c, n, tokens) {

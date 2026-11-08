@@ -265,6 +265,41 @@ const ART = (() => {
     front: () => '',
   };
 
+  // Krabička (Baby Box): kočička z krabice – hranatá hlava s růžovým "víčkem" a oušky,
+  // fialové fousky z drátků, modré šatičky z papírového kelímku s třpytivými puntíky, ručičky z kartonu
+  C.krabicka = {
+    face: { eyeY: 116, eyeDx: 24, eyeR: 10, eyeColor: '#6b4a2a', mouthY: 142, mouthW: 18, nose: '#3b2752', blush: '#ff9cc0' },
+    back: () => `
+      <g stroke="${OUT}" stroke-width="3" stroke-linejoin="round">
+        <polygon points="70,172 26,186 30,198 74,186" fill="#c9965a"/>
+        <polygon points="26,186 18,189 22,201 30,198" fill="#e04ad8"/>
+        <polygon points="130,172 174,186 170,198 126,186" fill="#c9965a"/>
+        <polygon points="174,186 182,189 178,201 170,198" fill="#e04ad8"/>
+        <path d="M68,160 L132,160 L148,212 L52,212Z" fill="#86dcea"/>
+      </g>
+      <g stroke="${OUT}" stroke-width="1.5">
+        <circle cx="82" cy="178" r="6" fill="#ffe14d"/><circle cx="114" cy="174" r="6" fill="#b06cf0"/>
+        <circle cx="98" cy="196" r="6" fill="#4fd1c5"/><circle cx="128" cy="198" r="6" fill="#7ee36b"/><circle cx="68" cy="202" r="6" fill="#ff7ac0"/>
+      </g>
+      <g fill="#fff" opacity=".8"><circle cx="80" cy="176" r="1.8"/><circle cx="112" cy="172" r="1.8"/><circle cx="96" cy="194" r="1.8"/><circle cx="126" cy="196" r="1.8"/><circle cx="66" cy="200" r="1.8"/></g>
+      <g fill="none" stroke="#5b4b9a" stroke-width="5" stroke-linecap="round">
+        <path d="M46,110 q-8,-6 -16,-4 q-8,2 -14,-6 q-4,-4 -10,-4"/>
+        <path d="M46,124 q-10,-2 -18,2 q-8,4 -16,0"/>
+        <path d="M154,110 q8,-6 16,-4 q8,2 14,-6 q4,-4 10,-4"/>
+        <path d="M154,124 q10,-2 18,2 q8,4 16,0"/>
+      </g>
+      <g stroke="${OUT}" stroke-width="3" stroke-linejoin="round">
+        <polygon points="48,52 58,12 90,47" fill="#ff8fbf"/>
+        <polygon points="110,47 142,12 152,52" fill="#ff8fbf"/>
+        <rect x="46" y="44" width="108" height="118" rx="10" fill="#fbe3c8"/>
+        <path d="M49,44 H151 Q154,44 154,50 V82 Q142,98 128,86 Q114,74 100,84 Q86,74 72,86 Q58,98 46,82 V50 Q46,44 49,44Z" fill="#ff8fbf"/>
+      </g>
+      <g fill="#ffc4dd"><polygon points="62,40 64,24 78,42"/><polygon points="122,42 136,24 138,40"/></g>
+      <path d="M54,58 H146" stroke="#ff6fa8" stroke-width="2" opacity=".6"/>
+      <path d="M46,148 H154" stroke="#e8c9a6" stroke-width="3"/>`,
+    front: () => '',
+  };
+
   function render(id, st = {}) {
     const c = C[id];
     if (!c) return '';

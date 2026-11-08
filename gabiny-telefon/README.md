@@ -2,7 +2,7 @@
 
 Dětská „telefonní aplikace“ do prohlížeče (Chrome na Androidu).
 
-- **Volání** – 8 postaviček (Gábi, Pandy, DJ kocour, Krysour, Dortě, Válečka, Rybočka, Autěna).
+- **Volání** – 9 postaviček (Gábi, Pandy, DJ kocour, Krysour, Dortě, Válečka, Rybočka, Autěna, Krabička).
   Hlasový hovor 📞 i videohovor 🎥 (postavička mění výrazy, mrká, tancuje, ukazuje obrázky).
   Kamera se nepoužívá, stačí mikrofon. Postavičky poslouchají, co dítě řekne, a odpovídají hlasem a zvuky.
   Když mikrofon nefunguje, dají se použít obrázková tlačítka (Ahoj, Vtip, Zazpívej…).

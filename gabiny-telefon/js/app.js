@@ -388,6 +388,7 @@ const App = (() => {
       valecka: 'Ach… dobré ráno… 😴',
       rybocka: 'Blub blub! 🫧 Ahoj z bazénu!',
       autena: 'Tú tú! 🚗 Kam pojedeme?',
+      krabicka: 'Ahoj! ✂️ Vyrobila jsem něco krásného! Chceš vědět co?',
     };
     const STICKERS = ['👋', '❤️', '😂', '🎵', '🍰', '😴', '🐱', '🌈', '⭐', '🎁', '😢', '⚽', '🐶'];
 

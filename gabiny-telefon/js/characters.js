@@ -17,7 +17,7 @@ const CHARACTERS = [
     special: [
       { w: ['domec', 'domek', 'domeck'], r: ['Můj domeček je kouzelný! Má spoustu pokojíčků a v každém bydlí jiná kočička.'], sfx: 'magic', prop: '🏠' },
       { w: ['usi', 'usk', 'ous', 'zmens'], r: ['Když si nasadím kočičí ouška a řeknu: Kočičí ouška, raz dva tři, zmenším se! Chceš to zkusit taky?'], sfx: 'magic', prop: '🐱' },
-      { w: ['krabic', 'prekvap'], r: ['Krabice s překvapením! Co v ní asi bude? Možná nějaké kouzelné tvoření!'], prop: '🎁' },
+      { w: ['krabice', 'krabici', 'prekvap'], r: ['Krabice s překvapením! Co v ní asi bude? Možná nějaké kouzelné tvoření!'], prop: '🎁' },
     ],
     generic: ['To je skvělé!', 'Páni, to se mi líbí!', 'Mňau! Opravdu?', 'Páni, to je kouzelné!'],
   },
@@ -165,6 +165,27 @@ const CHARACTERS = [
     ],
     generic: ['Tú tú! To je super!', 'Brm! Opravdu?', 'To je jízda!', 'Páni, to zní jako dobrý výlet!'],
   },
+  {
+    id: 'krabicka', tag: 'Tvoření a nápady ✂️', name: 'Krabička', fem: true, color: '#4fc3e8',
+    bg: 'linear-gradient(160deg,#fff1d6,#c9f1ff)', deco: ['✂️', '🎨', '📦', '✨'],
+    voice: { pitch: 1.75, rate: 1.2, v: 2 }, sfx: 'squeak', favColor: 'všechny barvy třpytek', favFood: 'sušenky ve tvaru hvězdiček',
+    hello: ['Ahoj{jm}! Tady Krabička! Mám ruce celé od lepidla, hihi!', 'Haló{jm}! Krabička u telefonu! Zrovna něco tvořím!'],
+    intro: 'Já jsem Krabička! Jsem kočička z krabice a nejradši tvořím. Z papíru, lepidla a třpytek umím vyrobit skoro cokoliv!',
+    doing: ['Stříhám z papíru hvězdičky. Stříh, stříh!', 'Lepím na krabici třpytky. Bude se krásně lesknout!', 'Vyrábím z kelímku novou čepičku pro Pandyho!'],
+    feel: ['Mám se tvořivě! Plná nápadů!', 'Skvěle! Mám nové nůžky a barevné papíry!'],
+    food: ['Mňam! Upekla bych sušenky ve tvaru hvězdiček!', 'Já mám ráda všechno, co je barevné. Třeba duhový dortík!'],
+    play: ['Pojď tvořit se mnou! Vezmi papír a pastelky a nakresli kočičku!', 'Zahrajeme si na vyrábění! Co postavíme z krabice? Hrad, nebo raketu?'],
+    sleep: ['Já spinkám v krabici vystlané papírovými obláčky. Dobrou noc!'],
+    love: ['Já tě mám taky moc ráda! Vyrobím ti srdíčko z červeného papíru!'],
+    bye: ['Pa pa{jm}! Jdu dolepit svůj výrobek!', 'Ahoj! A zkus taky něco vyrobit, pak mi to ukážeš!'],
+    song: { text: 'Stříhej, lep a maluj s námi, krabice je plná přáníčky a třpytkami! Tvoř a tvoř, hurá!', tune: 'b' },
+    special: [
+      { w: ['tvor', 'vyrab', 'vyrob', 'lep', 'nuzk', 'strih', 'papir', 'kresl', 'malov', 'pastel'], r: ['Tvoření je nejlepší! Nejdřív stříhat, pak lepit a nakonec třpytky! Ta-dá!'], sfx: 'magic', prop: '✂️' },
+      { w: ['krabic', 'karton', 'kelim'], r: ['Já jsem celá z krabice! A z kelímku mám šatičky. Pěkné, že?'], sfx: 'squeak', prop: '📦' },
+      { w: ['trpyt', 'flitr', 'puntik'], r: ['Třpytky! Ty mám nejradši! Podívej, jak se mi lesknou puntíky na šatech!'], sfx: 'magic', prop: '✨' },
+    ],
+    generic: ['To je skvělý nápad!', 'Páni, z toho by se dalo něco vyrobit!', 'Hihi, opravdu?', 'To je tvořivé!'],
+  },
 ];
 
-const CHAR = Object.fromEntries(CHARACTERS.map(c => [c.id, c]));
+const CHAR =Object.fromEntries(CHARACTERS.map(c => [c.id, c]));
