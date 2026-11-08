@@ -65,23 +65,117 @@ function drawBuilding(c, r, si, key) {
   c.restore();
 }
 
+// Pevnost: kamenné hradby se zuby, dvě boční věže se střechou v barvě týmu, hlavní věž s kanónem,
+// brána s cedulí a vlajka. Při poškození praskliny, při velkém poškození oheň a kouř.
+function drawFortress(c, x, y, si, hpFrac, flash) {
+  const out = si === 0 ? -1 : 1;           // vnější strana (dál od bojiště)
+  const STONE = '#a7a29a', STONE_D = '#7d776f', STONE_L = '#c4bfb6', EDGE = '#4d4842';
+  c.save();
+  c.lineJoin = 'round';
+  // stín
+  c.fillStyle = '#00000033'; c.beginPath(); c.ellipse(x, y + 54, 82, 14, 0, 0, 7); c.fill();
+
+  const bricks = (bx, by, bw, bh) => {
+    c.save(); c.beginPath(); c.rect(bx, by, bw, bh); c.clip();
+    c.strokeStyle = STONE_D; c.lineWidth = 1.2; c.globalAlpha = 0.55;
+    for (let row = 0, yy = by + 11; yy < by + bh; yy += 11, row++) {
+      c.beginPath(); c.moveTo(bx, yy); c.lineTo(bx + bw, yy); c.stroke();
+      for (let xx = bx + (row % 2 ? 8 : 0); xx < bx + bw; xx += 16) { c.beginPath(); c.moveTo(xx, yy - 11); c.lineTo(xx, yy); c.stroke(); }
+    }
+    c.restore();
+  };
+  const merlons = (bx, by, bw, n, h, fill) => {
+    const mw = bw / (n * 2 - 1);
+    c.fillStyle = fill; c.strokeStyle = EDGE; c.lineWidth = 2;
+    for (let i = 0; i < n; i++) { c.beginPath(); c.rect(bx + i * mw * 2, by - h, mw, h + 1); c.fill(); c.stroke(); }
+  };
+  const block = (bx, by, bw, bh, fill) => {
+    c.fillStyle = fill; c.fillRect(bx, by, bw, bh);
+    bricks(bx, by, bw, bh);
+    c.strokeStyle = EDGE; c.lineWidth = 2.5; c.strokeRect(bx, by, bw, bh);
+  };
+
+  // hradba mezi věžemi
+  merlons(x - 54, y - 14, 108, 6, 9, STONE);
+  block(x - 54, y - 14, 108, 66, STONE);
+
+  // boční věže se špičatou střechou
+  for (const side of [-1, 1]) {
+    const tx = x + side * 56, tw = 34, top = y - 46;
+    block(tx - tw / 2, top, tw, 98, STONE_L);
+    c.fillStyle = COL[si]; c.strokeStyle = COL_DARK[si]; c.lineWidth = 2.5;
+    c.beginPath(); c.moveTo(tx - tw / 2 - 5, top + 1); c.lineTo(tx, top - 30); c.lineTo(tx + tw / 2 + 5, top + 1); c.closePath(); c.fill(); c.stroke();
+    c.fillStyle = COL_LIGHT[si]; c.globalAlpha = 0.5;
+    c.beginPath(); c.moveTo(tx - 2, top - 26); c.lineTo(tx - tw / 2 + 2, top - 1); c.lineTo(tx - 6, top - 1); c.closePath(); c.fill(); c.globalAlpha = 1;
+    // okénko
+    c.fillStyle = '#2d2a26'; rr(c, tx - 4, top + 18, 8, 15, 4); c.fill();
+    c.fillStyle = '#ffd34d55'; rr(c, tx - 2.5, top + 20, 5, 6, 2.5); c.fill();
+    // vlajka na vnější věži
+    if (side === out) {
+      const px = tx, py = top - 30;
+      c.strokeStyle = '#5a4630'; c.lineWidth = 2.5; c.beginPath(); c.moveTo(px, py); c.lineTo(px, py - 26); c.stroke();
+      c.fillStyle = COL[si]; c.strokeStyle = COL_DARK[si]; c.lineWidth = 1.5;
+      const fw = 26 * -out, wv = Math.sin(time * 5) * 3;
+      c.beginPath(); c.moveTo(px, py - 26);
+      c.quadraticCurveTo(px + fw * 0.5, py - 29 + wv, px + fw, py - 24 + wv * 0.5);
+      c.lineTo(px + fw, py - 13 + wv * 0.5);
+      c.quadraticCurveTo(px + fw * 0.5, py - 16 + wv, px, py - 13);
+      c.closePath(); c.fill(); c.stroke();
+      c.fillStyle = '#fff'; c.font = 'bold 9px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.fillText('★', px + fw * 0.5, py - 19 + wv * 0.7);
+    }
+  }
+
+  // hlavní věž (nese kanón)
+  merlons(x - 30, y - 44, 60, 4, 8, STONE_L);
+  block(x - 30, y - 44, 60, 96, STONE);
+  c.fillStyle = COL[si]; c.fillRect(x - 30, y - 30, 60, 8);
+  c.strokeStyle = COL_DARK[si]; c.lineWidth = 1.5; c.strokeRect(x - 30, y - 30, 60, 8);
+
+  // brána
+  c.fillStyle = '#6b4a2b'; c.strokeStyle = EDGE; c.lineWidth = 2.5;
+  c.beginPath(); c.moveTo(x - 16, y + 52); c.lineTo(x - 16, y + 24); c.arc(x, y + 24, 16, Math.PI, 0); c.lineTo(x + 16, y + 52); c.closePath(); c.fill(); c.stroke();
+  c.strokeStyle = '#4a3220'; c.lineWidth = 1.5;
+  for (const dx of [-8, 0, 8]) { c.beginPath(); c.moveTo(x + dx, y + 52); c.lineTo(x + dx, y + 12 + Math.abs(dx) * 0.5); c.stroke(); }
+  c.fillStyle = '#ffd34d'; c.beginPath(); c.arc(x + 5, y + 36, 1.8, 0, 7); c.fill();
+
+  // cedule s nápisem
+  c.fillStyle = '#fffaf0'; c.strokeStyle = COL_DARK[si]; c.lineWidth = 2;
+  rr(c, x - 44, y - 13, 88, 20, 6); c.fill(); c.stroke();
+  c.fillStyle = COL_DARK[si]; c.font = 'bold 14px "Comic Sans MS", sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
+  c.fillText(si === 0 ? 'ZÁKLADNA' : 'NEPŘÍTEL', x, y - 2);
+
+  // poškození
+  if (hpFrac < 0.5) {
+    c.strokeStyle = '#3a342e'; c.lineWidth = 2;
+    c.beginPath(); c.moveTo(x - 48, y + 4); c.lineTo(x - 40, y + 14); c.lineTo(x - 44, y + 24); c.lineTo(x - 36, y + 34); c.stroke();
+    c.beginPath(); c.moveTo(x + 22, y - 40); c.lineTo(x + 16, y - 30); c.moveTo(x + 40, y + 20); c.lineTo(x + 48, y + 30); c.lineTo(x + 44, y + 40); c.stroke();
+  }
+  if (hpFrac < 0.25) {
+    for (let i = 0; i < 3; i++) {
+      const fx = x + [-50, 18, 44][i], fy = y + [-10, -46, 10][i], f = 1 + Math.sin(time * 12 + i * 2) * 0.25;
+      c.fillStyle = '#ff7a1a'; c.beginPath(); c.ellipse(fx, fy - 6 * f, 6, 10 * f, 0, 0, 7); c.fill();
+      c.fillStyle = '#ffd34d'; c.beginPath(); c.ellipse(fx, fy - 3 * f, 3, 6 * f, 0, 0, 7); c.fill();
+      c.fillStyle = '#5558'; c.beginPath(); c.arc(fx + Math.sin(time * 2 + i) * 4, fy - 22 - ((time * 20 + i * 9) % 18), 6, 0, 7); c.fill();
+    }
+  }
+
+  // záblesk při zásahu
+  if (flash > 0) {
+    c.globalAlpha = Math.min(0.6, flash * 3); c.fillStyle = '#fff';
+    c.fillRect(x - 73, y - 46, 146, 98);
+    c.globalAlpha = 1;
+  }
+  c.restore();
+}
+
 function drawBase(c, si) {
   const b = BLD[si].base, s = sides[si];
   c.save();
-  c.fillStyle = '#00000033'; c.beginPath(); c.ellipse(b.x, b.y + b.r - 4, b.r, 14, 0, 0, 7); c.fill();
-  const g = c.createRadialGradient(b.x - 20, b.y - 25, 10, b.x, b.y, b.r);
-  g.addColorStop(0, s.flash > 0 ? '#fff' : COL_LIGHT[si]); g.addColorStop(1, COL[si]);
-  c.fillStyle = g; c.beginPath(); c.arc(b.x, b.y, b.r, 0, 7); c.fill();
-  c.strokeStyle = COL_DARK[si]; c.lineWidth = 4; c.stroke();
-  // pruh s nápisem (jako na obrázku)
-  c.save(); c.beginPath(); c.arc(b.x, b.y, b.r - 2, 0, 7); c.clip();
-  c.fillStyle = '#ffffffdd'; c.fillRect(b.x - b.r, b.y - 2, b.r * 2, 30);
-  c.restore();
-  c.fillStyle = COL_DARK[si]; c.font = 'bold 17px "Comic Sans MS", sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
-  c.fillText(si === 0 ? 'ZÁKLADNA' : 'NEPŘÍTEL', b.x, b.y + 13);
-  // věž
+  drawFortress(c, b.x, b.y, si, s.base / s.baseMax, s.flash);
+  // věž s kanónem na hlavní věži
   const ox = b.x, oy = b.y - 58, tur = s.turret;
-  c.fillStyle = '#8d8d8d'; rr(c, ox - 18, oy - 4, 36, 30, 4); c.fill(); c.strokeStyle = '#444'; c.lineWidth = 2; c.stroke();
+  c.fillStyle = '#8d8d8d'; rr(c, ox - 18, oy - 4, 36, 14, 4); c.fill(); c.strokeStyle = '#444'; c.lineWidth = 2; c.stroke();
   c.save(); c.translate(ox, oy); c.rotate(tur.ang);
   c.fillStyle = '#333'; c.fillRect(4 - tur.recoil * 5, -4 - (tur.lvl > 2 ? 1 : 0), 24 + tur.lvl * 2, 8 + (tur.lvl > 2 ? 2 : 0));
   if (tur.lvl >= 4) c.fillRect(4 - tur.recoil * 5, 6, 20, 4);
@@ -105,13 +199,12 @@ function drawPark(c, si) {
   c.setLineDash([]);
   c.fillStyle = '#fff'; c.font = 'bold 15px "Comic Sans MS", sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
   c.fillText('ZÁLOHA / PARKOVIŠTĚ', r.x + r.w / 2, r.y + 32);
-  const order = ['vojak', 'tank', 'delo'];
-  order.forEach((t, i) => {
-    const y = r.y + 70 + i * 44, n = s.reserve[t];
+  UNIT_ORDER.forEach((t, i) => {
+    const y = r.y + 64 + i * 34, n = s.reserve[t];
     c.globalAlpha = n > 0 ? 1 : 0.3;
     const shown = Math.min(n, 3) || 1;
     for (let k = 0; k < shown; k++) {
-      c.save(); c.translate(r.x + 30 + k * 36, y); c.scale(0.7, 0.7);
+      c.save(); c.translate(r.x + 30 + k * 36, y); c.scale(0.6, 0.6);
       DRAW[t](c, 0, 0, si, si === 0 ? 1 : -1, false, 0); c.restore();
     }
     c.globalAlpha = 1;
@@ -163,20 +256,22 @@ function render() {
   for (const u of sorted) {
     const T = TYPES[u.type];
     c.save();
-    c.fillStyle = '#0003'; c.beginPath(); c.ellipse(u.x, u.y + T.r - 2, T.r, 6, 0, 0, 7); c.fill();
+    const uy = vy(u) + (T.air ? Math.sin(time * 3 + u.id) * 3 : 0);
+    c.fillStyle = T.air ? '#0002' : '#0003'; c.beginPath(); c.ellipse(u.x, u.y + T.r - 2, T.air ? T.r * 0.8 : T.r, T.air ? 5 : 6, 0, 0, 7); c.fill();
     if (u.dragging) { c.translate(0, -8); c.globalAlpha = 0.9; }
-    DRAW[u.type](c, u.x, u.y, u.side, u.dir, u.moving, u.recoil);
-    if (u.flash > 0) { c.globalAlpha = 0.6; c.fillStyle = '#fff'; c.beginPath(); c.arc(u.x, u.y, T.r, 0, 7); c.fill(); c.globalAlpha = 1; }
-    if (showHearts) drawHearts(c, u.x, u.y - T.r - 14, u.hp, u.max);
+    DRAW[u.type](c, u.x, uy, u.side, u.dir, u.moving, u.recoil);
+    if (u.flash > 0) { c.globalAlpha = 0.6; c.fillStyle = '#fff'; c.beginPath(); c.arc(u.x, uy, T.r, 0, 7); c.fill(); c.globalAlpha = 1; }
+    const top = uy - T.r - (T.air ? 6 : 0);
+    if (showHearts) drawHearts(c, u.x, top - 14, u.hp, u.max);
     else if (u.hp < u.max) {
-      c.fillStyle = '#0007'; c.fillRect(u.x - 16, u.y - T.r - 12, 32, 5);
+      c.fillStyle = '#0007'; c.fillRect(u.x - 16, top - 12, 32, 5);
       c.fillStyle = u.hp / u.max > 0.5 ? '#3ddc63' : u.hp / u.max > 0.25 ? '#ffc93c' : '#ff3b3b';
-      c.fillRect(u.x - 16, u.y - T.r - 12, 32 * u.hp / u.max, 5);
+      c.fillRect(u.x - 16, top - 12, 32 * u.hp / u.max, 5);
     }
     // nápověda: zraněný hráčův voják
     if (u.side === 0 && !u.dragging && u.hp / u.max <= 0.4) {
       c.font = '16px sans-serif'; c.textAlign = 'center';
-      c.fillText(T.kind === 'bio' ? '🩹' : '🔧', u.x + T.r, u.y - T.r - 6 + Math.sin(time * 6) * 2);
+      c.fillText(T.kind === 'bio' ? '🩹' : '🔧', u.x + T.r, top - 6 + Math.sin(time * 6) * 2);
     }
     c.restore();
   }
@@ -185,6 +280,12 @@ function render() {
   for (const p of projs) {
     c.save();
     if (p.kind === 'shell') { c.fillStyle = '#222'; c.beginPath(); c.arc(p.x, p.y, 6, 0, 7); c.fill(); }
+    else if (p.kind === 'rocket') {
+      const ang = Math.atan2(p.ty - p.sy, p.tx - p.sx);
+      c.translate(p.x, p.y); c.rotate(ang);
+      c.fillStyle = '#ff9a2e'; c.beginPath(); c.moveTo(-12, 0); c.lineTo(-5, -2.5); c.lineTo(-5, 2.5); c.closePath(); c.fill();
+      c.fillStyle = '#ddd'; c.fillRect(-5, -2, 10, 4); c.fillStyle = COL[p.side]; c.fillRect(3, -2, 3, 4);
+    }
     else if (p.kind === 'tankshot') { c.fillStyle = '#ffb02e'; c.beginPath(); c.arc(p.x, p.y, 4.5, 0, 7); c.fill(); }
     else if (p.kind === 'turret') { c.fillStyle = p.side === 0 ? '#bfe0ff' : '#ffd0c8'; c.beginPath(); c.arc(p.x, p.y, 4, 0, 7); c.fill(); }
     else { c.fillStyle = '#fff36b'; c.beginPath(); c.arc(p.x, p.y, 2.8, 0, 7); c.fill(); }

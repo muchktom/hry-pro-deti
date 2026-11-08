@@ -64,14 +64,14 @@ function explosion(x, y, big) {
 function hit(u, d) {
   if (u.hp <= 0 || u.removed) return;
   u.hp -= d; u.flash = 0.15;
-  floatText(u.x, u.y - 30, '-' + d, '#ff5a5a');
+  floatText(u.x, vy(u) - 30, '-' + d, '#ff5a5a');
   if (u.hp <= 0) {
     u.hp = 0; u.removed = true;
-    explosion(u.x, u.y, u.type !== 'vojak');
+    explosion(u.x, vy(u), u.type !== 'vojak');
     SFX.boom();
     const killer = 1 - u.side, bounty = Math.round(TYPES[u.type].cost * 0.35);
     sides[killer].money += bounty;
-    if (killer === 0) { floatText(u.x, u.y - 50, '+' + bounty + ' 💰', '#ffd34d'); SFX.coin(); }
+    if (killer === 0) { floatText(u.x, vy(u) - 50, '+' + bounty + ' 💰', '#ffd34d'); SFX.coin(); }
     if (drag && drag.u === u) drag = null;
   }
 }
@@ -86,16 +86,16 @@ function damageBase(si, d) {
 function fire(u, tgt) {
   const T = TYPES[u.type];
   u.cd = T.cd; u.recoil = 1;
-  const sx = u.x + u.dir * T.r, sy = u.y - (u.type === 'delo' ? 12 : u.type === 'tank' ? 12 : 6);
+  const sx = u.x + u.dir * T.r, sy = T.air ? vy(u) + 10 : u.y - (u.type === 'delo' ? 12 : u.type === 'tank' ? 12 : 6);
   let tx, ty, target = null, base = -1;
   if (tgt === 'base') { base = 1 - u.side; const b = BLD[base].base; tx = b.x - u.dir * 30 + rnd(-15, 15); ty = b.y + rnd(-30, 30); }
-  else { target = tgt; tx = tgt.x; ty = tgt.y; }
+  else { target = tgt; tx = tgt.x; ty = vy(tgt); }
   const shell = u.type === 'delo';
   const speed = shell ? 330 : 560;
   const dist = Math.hypot(tx - sx, ty - sy);
   projs.push({ sx, sy, x: sx, y: sy, tx, ty, t: 0, dur: Math.max(0.08, dist / speed), dmg: T.dmg, side: u.side, lane: u.lane,
-    target, base, splash: T.splash || 0, kind: shell ? 'shell' : (u.type === 'tank' ? 'tankshot' : 'bullet'), arc: shell ? Math.min(140, dist * 0.35) : 0 });
-  if (shell || u.type === 'tank') { if (u.side === 0 || Math.random() < 0.5) tone(shell ? 140 : 200, 0.18, 'sawtooth', 0.05, 60); }
+    target, base, splash: T.splash || 0, kind: shell ? 'shell' : (u.type === 'tank' ? 'tankshot' : u.type === 'vrtulnik' ? 'rocket' : 'bullet'), arc: shell ? Math.min(140, dist * 0.35) : 0 });
+  if (shell || u.type === 'tank' || T.air) { if (u.side === 0 || Math.random() < 0.5) tone(shell ? 140 : 200, 0.18, 'sawtooth', 0.05, 60); }
   else SFX.shoot();
   // záblesk z hlavně
   parts.push({ x: sx, y: sy, vx: 0, vy: 0, life: 0.08, max: 0.08, size: shell ? 10 : 6, color: '#fff2a0', type: 'fire' });
@@ -115,6 +115,7 @@ function update(dt) {
     let tgt = null, best = 1e9;
     for (const e of units) {
       if (e.side === u.side || e.removed || e.dragging || e.lane !== u.lane) continue;
+      if (TYPES[e.type].air && !T.antiAir) continue;
       const dx = (e.x - u.x) * u.dir; if (dx < -15) continue;
       const d = Math.abs(e.x - u.x);
       if (d <= T.range && d < best) { best = d; tgt = e; }
@@ -149,11 +150,11 @@ function update(dt) {
       if (d <= TURRET_RANGE && d < best) { best = d; tgt = e; }
     }
     if (tgt) {
-      tur.ang = Math.atan2(tgt.y - oy, tgt.x - ox);
+      tur.ang = Math.atan2(vy(tgt) - oy, tgt.x - ox);
       if (tur.cd <= 0) {
         tur.cd = st.cd; tur.recoil = 1;
         const sx = ox + Math.cos(tur.ang) * 26, sy = oy + Math.sin(tur.ang) * 26;
-        projs.push({ sx, sy, x: sx, y: sy, tx: tgt.x, ty: tgt.y, t: 0, dur: Math.max(0.08, best / 650), dmg: st.dmg, side: si, lane: tgt.lane, target: tgt, base: -1, splash: 0, kind: 'turret', arc: 0 });
+        projs.push({ sx, sy, x: sx, y: sy, tx: tgt.x, ty: vy(tgt), t: 0, dur: Math.max(0.08, best / 650), dmg: st.dmg, side: si, lane: tgt.lane, target: tgt, base: -1, splash: 0, kind: 'turret', arc: 0 });
         SFX.shoot();
       }
     } else tur.ang += (((si === 0 ? 0 : Math.PI) - tur.ang) * dt * 2);
@@ -162,7 +163,7 @@ function update(dt) {
   // --- střely ---
   for (const p of projs) {
     p.t += dt;
-    if (p.target && !p.target.removed && !p.target.dragging && p.kind !== 'shell') { p.tx = p.target.x; p.ty = p.target.y; }
+    if (p.target && !p.target.removed && !p.target.dragging && p.kind !== 'shell') { p.tx = p.target.x; p.ty = vy(p.target); }
     const k = Math.min(1, p.t / p.dur);
     p.x = p.sx + (p.tx - p.sx) * k;
     p.y = p.sy + (p.ty - p.sy) * k - Math.sin(k * Math.PI) * p.arc;
@@ -171,7 +172,7 @@ function update(dt) {
       if (p.base >= 0) { damageBase(p.base, p.dmg); explosion(p.tx, p.ty, p.splash > 0); SFX.small(); }
       else if (p.splash) {
         explosion(p.tx, p.ty, true); SFX.boom();
-        for (const e of units) if (e.side !== p.side && !e.removed && !e.dragging && e.lane === p.lane && Math.abs(e.x - p.tx) <= p.splash) hit(e, p.dmg);
+        for (const e of units) if (e.side !== p.side && !e.removed && !e.dragging && !TYPES[e.type].air && e.lane === p.lane && Math.abs(e.x - p.tx) <= p.splash) hit(e, p.dmg);
       } else if (p.target && !p.target.removed && !p.target.dragging) {
         hit(p.target, p.dmg);
         parts.push({ x: p.tx, y: p.ty, vx: 0, vy: 0, life: 0.15, max: 0.15, size: 7, color: '#fff', type: 'fire' });
@@ -184,10 +185,10 @@ function update(dt) {
     m.arm -= dt;
     if (m.arm > 0) continue;
     for (const e of units) {
-      if (e.side === m.side || e.removed || e.dragging || e.lane !== m.lane) continue;
+      if (e.side === m.side || e.removed || e.dragging || e.lane !== m.lane || TYPES[e.type].air) continue;
       if (Math.abs(e.x - m.x) < 24) {
         m.done = true; explosion(m.x, m.y, true); SFX.boom();
-        for (const e2 of units) if (e2.side !== m.side && !e2.removed && !e2.dragging && e2.lane === m.lane && Math.abs(e2.x - m.x) <= MINE.radius) hit(e2, MINE.dmg);
+        for (const e2 of units) if (e2.side !== m.side && !e2.removed && !e2.dragging && !TYPES[e2.type].air && e2.lane === m.lane && Math.abs(e2.x - m.x) <= MINE.radius) hit(e2, MINE.dmg);
         break;
       }
     }

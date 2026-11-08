@@ -9,7 +9,7 @@ function unitAt(p, side) {
   let hitU = null, bd = 1e9;
   for (const u of units) {
     if (u.side !== side || u.removed) continue;
-    const d = Math.hypot(u.x - p.x, u.y - p.y);
+    const d = Math.hypot(u.x - p.x, vy(u) - p.y);
     if (d < TYPES[u.type].r + 10 && d < bd) { bd = d; hitU = u; }
   }
   return hitU;
@@ -94,6 +94,7 @@ window.addEventListener('keydown', e => {
   else if (k === 'q') cardAction('vojak');
   else if (k === 'w') cardAction('tank');
   else if (k === 'e') cardAction('delo');
+  else if (k === 'a') cardAction('vrtulnik');
   else if (k === 'r') cardAction('mina');
   else if (k === 't') cardAction('vez');
   else if (k === 'arrowup') { selLane = Math.max(0, selLane - 1); updateLaneButtons(); e.preventDefault(); }

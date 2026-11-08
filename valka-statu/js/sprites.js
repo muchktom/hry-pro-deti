@@ -101,7 +101,37 @@ function drawTowerIcon(c, x, y, si, lvl) {
   c.restore();
 }
 
-const DRAW = { vojak: drawSoldier, tank: drawTank, delo: drawCannon };
+function drawHeli(c, x, y, si, dir, moving, recoil) {
+  c.save(); c.translate(x, y);
+  c.lineJoin = 'round';
+  // ocasní nosník a ocasní vrtulka
+  c.fillStyle = COL[si]; c.strokeStyle = COL_DARK[si]; c.lineWidth = 2;
+  c.beginPath(); c.moveTo(-dir * 10, -5); c.lineTo(-dir * 36, -9); c.lineTo(-dir * 36, -3); c.lineTo(-dir * 10, 5); c.closePath(); c.fill(); c.stroke();
+  c.beginPath(); c.moveTo(-dir * 32, -9); c.lineTo(-dir * 38, -18); c.lineTo(-dir * 40, -18); c.lineTo(-dir * 38, -3); c.closePath(); c.fill(); c.stroke();
+  c.save(); c.translate(-dir * 38, -9); c.rotate(time * 30);
+  c.strokeStyle = '#333'; c.lineWidth = 2.5; c.beginPath(); c.moveTo(-7, 0); c.lineTo(7, 0); c.stroke(); c.restore();
+  // ližiny
+  c.strokeStyle = '#333'; c.lineWidth = 2.5; c.lineCap = 'round';
+  c.beginPath(); c.moveTo(-15, 17); c.lineTo(17, 17); c.moveTo(-8, 10); c.lineTo(-10, 17); c.moveTo(8, 10); c.lineTo(10, 17); c.stroke();
+  c.beginPath(); c.moveTo(17, 17); c.quadraticCurveTo(21, 17, 21, 13); c.stroke();
+  // kulomet pod nosem
+  c.fillStyle = '#2b2b2b'; c.fillRect(dir > 0 ? 10 - recoil * 3 : -22 + recoil * 3, 7, 12, 3.5);
+  // trup
+  c.fillStyle = COL[si]; c.strokeStyle = COL_DARK[si]; c.lineWidth = 2;
+  c.beginPath(); c.ellipse(0, 0, 19, 12.5, 0, 0, 7); c.fill(); c.stroke();
+  // okno kabiny
+  c.fillStyle = COL_LIGHT[si]; c.beginPath(); c.ellipse(dir * 8, -2, 8.5, 7, 0, 0, 7); c.fill(); c.stroke();
+  c.fillStyle = '#ffffffaa'; c.beginPath(); c.ellipse(dir * 10, -5, 3, 2, 0, 0, 7); c.fill();
+  // stožár a hlavní rotor (točí se)
+  c.fillStyle = '#333'; c.fillRect(-2, -17, 4, 6);
+  const a = time * 22, L1 = 34 * Math.abs(Math.cos(a)) + 4, L2 = 34 * Math.abs(Math.sin(a)) + 4;
+  c.strokeStyle = '#222'; c.lineWidth = 3;
+  c.beginPath(); c.moveTo(-L1, -18); c.lineTo(L1, -18); c.stroke();
+  c.globalAlpha *= 0.45; c.beginPath(); c.moveTo(-L2, -19); c.lineTo(L2, -19); c.stroke();
+  c.restore();
+}
+
+const DRAW = { vojak: drawSoldier, tank: drawTank, delo: drawCannon, vrtulnik: drawHeli };
 
 function drawHearts(c, x, y, hp, max) {
   const per = 5, s = 5.5, gap = 12;
