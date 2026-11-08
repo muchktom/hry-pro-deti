@@ -53,7 +53,7 @@ Browser games for children, each in its own folder, published together on GitHub
    ```
    Also add a colour rule next to `.valka`, `.gabi` and `.hodiny` in the `<style>`. Use the game's main colour: `--c` for the border and button, `--c-dark` for the 3D shadow, and `--c-soft` for a pale press/hover background. Pick a colour clearly different from the existing cards. Keep the tagline short (about 4–6 words, in Czech).
 
-7. **Service worker (only if the game has one)**: when game files change, bump the cache name in its `sw.js` (e.g. `gabin-telefon-v7` → `v8`), and list any new files in its precache array.
+7. **Service worker (only if the game has one)**: when game files change, bump the cache name in its `sw.js` (e.g. `gabin-telefon-v7` → `v8`), and list any new files in its precache array. Also bump the `?v=` query on the game's `<script>`/`<link>` tags in `index.html` (e.g. `js/app.js?v=11`): Pages sends `max-age=600`, so without it a phone can mix a fresh `index.html` with stale cached JS.
 
 8. **Check it before pushing**: serve the repo root locally (`python3 -m http.server 8765` from the repo root, so `../` resolves to the landing page) and take headless Chrome screenshots at desktop (1280×800) and phone (390×844) sizes. Headless Chrome can't really go narrower than ~500px, so a slight right shift in "phone" shots is a rendering artifact, not a bug. Stop the server afterwards.
 
