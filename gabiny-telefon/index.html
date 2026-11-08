@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#b06cff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Gábin kouzelný telefon</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="phone">
+    <div id="statusbar">
+      <span id="clock">12:00</span>
+      <span class="sb-mid">🐾 Kočičí síť</span>
+      <span class="sb-right">📶 🔋</span>
+    </div>
+
+    <!-- Úvodní obrazovka (odemkne zvuk) -->
+    <section id="splash" class="screen active">
+      <div class="splash-inner">
+        <div class="splash-chars"><div data-art="gabi"></div><div data-art="pandy"></div></div>
+        <h1>Gábin<br><span>kouzelný telefon</span></h1>
+        <button id="btn-start" class="big-btn">✨ Zapnout telefon ✨</button>
+        <a class="big-btn alt all-games" href="../">← Všechny hry</a>
+      </div>
+    </section>
+
+    <!-- Domovská obrazovka -->
+    <section id="home" class="screen">
+      <div class="widget">
+        <div class="widget-chars">
+          <button class="wchar" data-say="gabi"><div data-art="gabi"></div><span>Gábi</span></button>
+          <div class="widget-bubble" id="home-bubble">Ahoj! Na co máš chuť?</div>
+          <button class="wchar" data-say="pandy"><div data-art="pandy"></div><span>Pandy</span></button>
+        </div>
+      </div>
+      <div class="apps">
+        <button class="app" data-go="games"><div class="app-icon ic-games">🃏</div><span>Hry</span></button>
+        <button class="app" data-go="chats"><div class="app-icon ic-msg">💬<b class="badge" id="badge-msg"></b></div><span>Zprávy</span></button>
+        <button class="app" data-go="contacts"><div class="app-icon ic-call">📞</div><span>Volání</span></button>
+      </div>
+      <button class="parent-btn" id="btn-info" aria-label="Pro rodiče">⚙️</button>
+      <a class="games-home-btn" href="../" aria-label="Všechny hry">🏠</a>
+    </section>
+
+    <!-- Kontakty -->
+    <section id="contacts" class="screen">
+      <header class="topbar"><button class="back" data-back>‹</button><h2>Volání</h2></header>
+      <div class="list" id="contact-list"></div>
+    </section>
+
+    <!-- Hovor -->
+    <section id="call" class="screen">
+      <div class="call-bg" id="call-bg"></div>
+      <div class="call-top">
+        <div class="call-name" id="call-name"></div>
+        <div class="call-status" id="call-status"></div>
+      </div>
+      <div class="call-stage" id="call-stage">
+        <div class="call-char" id="call-char"></div>
+        <div class="call-prop" id="call-prop"></div>
+      </div>
+      <div class="bubbles">
+        <div class="bubble char-bubble" id="char-bubble"></div>
+        <div class="bubble kid-bubble" id="kid-bubble"></div>
+      </div>
+      <div class="quick" id="call-quick"></div>
+      <div class="call-controls">
+        <button class="ctl ctl-mic" id="btn-mic" aria-label="Mluvit">🎤</button>
+        <button class="ctl ctl-hang" id="btn-hang" aria-label="Zavěsit">📞</button>
+      </div>
+      <div class="mic-hint" id="mic-hint"></div>
+    </section>
+
+    <!-- Příchozí hovor -->
+    <section id="incoming" class="screen">
+      <div class="incoming-inner">
+        <div class="incoming-label">Volá ti…</div>
+        <div class="incoming-avatar" id="incoming-avatar"></div>
+        <div class="incoming-name" id="incoming-name"></div>
+        <div class="incoming-btns">
+          <button class="ctl ctl-hang" id="btn-decline">📞</button>
+          <button class="ctl ctl-accept" id="btn-accept">📞</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seznam zpráv -->
+    <section id="chats" class="screen">
+      <header class="topbar"><button class="back" data-back>‹</button><h2>Zprávy</h2></header>
+      <div class="list" id="chat-list"></div>
+    </section>
+
+    <!-- Konverzace -->
+    <section id="chat" class="screen">
+      <header class="topbar chat-top">
+        <button class="back" data-back>‹</button>
+        <div class="chat-who"><div class="mini-avatar" id="chat-avatar"></div><h2 id="chat-name"></h2></div>
+        <button class="topbtn" id="chat-call" aria-label="Zavolat">📞</button>
+        <button class="topbtn" id="chat-video" aria-label="Videohovor">🎥</button>
+      </header>
+      <div class="msgs" id="msgs"></div>
+      <div class="stickers" id="stickers"></div>
+      <form class="composer" id="composer">
+        <button type="button" class="cbtn" id="chat-mic" aria-label="Diktovat">🎤</button>
+        <input id="chat-input" type="text" autocomplete="off" placeholder="Napiš zprávu…" enterkeyhint="send">
+        <button type="submit" class="cbtn send" aria-label="Odeslat">➤</button>
+      </form>
+    </section>
+
+    <!-- Hry -->
+    <section id="games" class="screen">
+      <header class="topbar"><button class="back" data-back>‹</button><h2>Hry</h2></header>
+      <div class="game-list">
+        <button class="game-card" data-go="pexeso">
+          <div class="gc-pic">🃏<div data-art="gabi" class="gc-gabi"></div></div>
+          <div class="gc-text"><b>Gábino pexeso</b><span>Najdi dvojice obrázků!</span></div>
+        </button>
+        <div class="game-card soon"><div class="gc-pic">🫧</div><div class="gc-text"><b>Bubliny s Rybočkou</b><span>Už brzy…</span></div></div>
+        <div class="game-card soon"><div class="gc-pic">🧁</div><div class="gc-text"><b>Pečení s Dortě</b><span>Už brzy…</span></div></div>
+      </div>
+    </section>
+
+    <!-- Pexeso -->
+    <section id="pexeso" class="screen">
+      <header class="topbar"><button class="back" data-back>‹</button><h2>Gábino pexeso</h2><div class="px-stats" id="px-stats"></div></header>
+      <div class="px-setup" id="px-setup">
+        <p>Kolik kartiček?</p>
+        <button class="big-btn px-size" data-pairs="3">🐣 6 kartiček</button>
+        <button class="big-btn px-size" data-pairs="6">🐱 12 kartiček</button>
+        <button class="big-btn px-size" data-pairs="8">🦁 16 kartiček</button>
+        <button class="big-btn px-size" data-pairs="10">🦄 20 kartiček</button>
+      </div>
+      <div class="px-board" id="px-board"></div>
+      <div class="px-win" id="px-win">
+        <div class="px-win-card">
+          <div class="px-win-art" data-art="gabi"></div>
+          <h3>Hurá! Máš to!</h3>
+          <div class="px-stars" id="px-stars"></div>
+          <p id="px-win-text"></p>
+          <button class="big-btn" id="px-again">🔁 Hrát znovu</button>
+          <button class="big-btn alt" id="px-other">🃏 Jiná velikost</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pro rodiče -->
+    <div class="info" id="info">
+      <div class="info-card">
+        <h3>Pro rodiče</h3>
+        <ul id="info-list"></ul>
+        <label class="row"><input type="checkbox" id="opt-incoming"> Postavičky občas samy zavolají</label>
+        <label class="row"><input type="checkbox" id="opt-readmsg"> Číst zprávy nahlas</label>
+        <button class="big-btn alt" id="btn-forget">Zapomenout jméno dítěte</button>
+        <button class="big-btn" id="btn-info-close">Hotovo</button>
+      </div>
+    </div>
+
+    <div id="confetti"></div>
+  </div>
+
+  <script src="js/art.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/characters.js"></script>
+  <script src="js/brain.js"></script>
+  <script src="js/pexeso.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
