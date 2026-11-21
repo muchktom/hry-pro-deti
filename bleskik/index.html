@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bleskík a kamarádi</title>
+<meta name="theme-color" content="#2f7bff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=1">
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<div id="hud" class="hidden">
+  <div class="hud-left">
+    <div class="pill" id="hearts" aria-label="Životy"></div>
+    <div class="pill">⭐ <b id="starCount">0</b></div>
+  </div>
+  <div class="pill lvl" id="levelName"></div>
+  <button id="btnPause" aria-label="Pauza">⏸</button>
+</div>
+
+<div id="touch" aria-hidden="true">
+  <div id="padLR"><div class="tbtn" data-d="-1">◀</div><div class="tbtn" data-d="1">▶</div></div>
+  <div id="padJump" class="tbtn">▲</div>
+</div>
+
+<div id="banner"></div>
+
+<section id="menu" class="overlay">
+  <div class="panel">
+    <h1>Bleskík a kamarádi</h1>
+    <p class="ask">Za koho chceš hrát?</p>
+    <div class="cards">
+      <button class="card" data-hero="0" data-focus><canvas width="150" height="130"></canvas><b>Bleskík</b><span>Nejrychlejší</span></button>
+      <button class="card" data-hero="1"><canvas width="150" height="130"></canvas><b>Uhlík</b><span>Skáče nejvýš</span></button>
+      <button class="card" data-hero="2"><canvas width="150" height="130"></canvas><b>Pampeliška</b><span>Umí plachtit</span></button>
+    </div>
+    <p class="keys">Skoč na roboty Doktora Brejlouna!<br><kbd>←</kbd> <kbd>→</kbd> běh &nbsp; <kbd>mezerník</kbd> skok</p>
+    <p class="rotate">Otoč telefon na šířku 📱↻</p>
+    <a class="allgames" href="../">← Všechny hry</a>
+  </div>
+</section>
+
+<section id="pause" class="overlay hidden">
+  <div class="panel">
+    <h2>Pauza</h2>
+    <button class="big" id="btnResume" data-focus>▶ Hrát dál</button>
+    <button class="big alt" id="btnSound">🔊 Zvuk zapnutý</button>
+    <button class="big alt" id="btnChoose">Vybrat postavičku</button>
+    <a class="allgames" href="../">← Všechny hry</a>
+  </div>
+</section>
+
+<section id="end" class="overlay hidden">
+  <div class="panel">
+    <h2 id="endTitle"></h2>
+    <canvas id="endPic" width="220" height="130"></canvas>
+    <p id="endText"></p>
+    <button class="big" id="endPrimary" data-focus></button>
+    <button class="big alt" id="endChoose">Vybrat postavičku</button>
+    <a class="allgames" href="../">← Všechny hry</a>
+  </div>
+</section>
+
+<script src="js/game.js?v=1"></script>
+</body>
+</html>

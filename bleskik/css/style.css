@@ -1,0 +1,87 @@
+:root{--ink:#1d1b2c;--blue:#2f7bff;--blue-dark:#1a4fb8;--font:'Baloo 2','Comic Sans MS','Chalkboard SE',system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#6ec6ff;color:var(--ink);font-family:var(--font);
+  touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+#game{position:fixed;inset:0;display:block}
+.hidden{display:none!important}
+
+/* HUD */
+#hud{position:fixed;top:0;left:0;right:0;display:flex;align-items:flex-start;justify-content:space-between;gap:8px;pointer-events:none;
+  padding:max(8px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) 0 max(10px,env(safe-area-inset-left))}
+.hud-left{display:flex;gap:8px;flex-wrap:wrap}
+.pill{background:rgba(255,255,255,.88);border:3px solid var(--ink);border-radius:999px;padding:0 14px;font-weight:800;font-size:22px;line-height:40px;white-space:nowrap}
+.pill.lvl{font-size:18px}
+#btnPause{pointer-events:auto;width:64px;height:64px;flex:none;border-radius:50%;border:4px solid var(--ink);background:#fff;font-size:26px;
+  box-shadow:0 4px 0 var(--ink);color:var(--ink);font-family:var(--font);touch-action:manipulation;cursor:pointer}
+#btnPause:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+@media (max-width:640px){.pill.lvl{display:none}}
+
+/* Touch controls */
+#touch{display:none}
+body.touch.playing #touch{display:block}
+.tbtn{display:grid;place-items:center;width:92px;height:92px;border-radius:50%;background:rgba(255,255,255,.5);border:4px solid rgba(29,27,44,.65);
+  font-size:38px;color:var(--ink);box-shadow:0 4px 0 rgba(29,27,44,.4)}
+.tbtn.on{background:rgba(255,210,31,.92);transform:translateY(3px);box-shadow:0 1px 0 rgba(29,27,44,.4)}
+#padLR{position:fixed;left:max(14px,env(safe-area-inset-left));bottom:max(14px,env(safe-area-inset-bottom));display:flex;gap:14px;padding:6px;touch-action:none}
+#padJump{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));width:110px;height:110px;font-size:46px;
+  background:rgba(255,140,40,.6);touch-action:none}
+#padJump.on{background:rgba(255,210,31,.95)}
+
+/* Banner */
+#banner{position:fixed;left:50%;top:22%;transform:translateX(-50%);pointer-events:none;opacity:0;white-space:nowrap;
+  font-size:clamp(26px,6vw,48px);font-weight:800;color:#fff;text-shadow:0 3px 0 var(--ink),0 -2px 0 var(--ink),3px 0 0 var(--ink),-3px 0 0 var(--ink),0 8px 14px rgba(0,0,0,.3)}
+#banner.show{animation:banner 2.6s ease-out forwards}
+@keyframes banner{0%{opacity:0;transform:translate(-50%,20px) scale(.7)}12%{opacity:1;transform:translate(-50%,0) scale(1.08)}20%{transform:translate(-50%,0) scale(1)}80%{opacity:1}100%{opacity:0}}
+
+/* Overlays */
+.overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:auto;background:rgba(18,30,80,.45);
+  padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));touch-action:pan-y}
+.panel{margin:auto;background:#fff;border:5px solid var(--ink);border-radius:30px;box-shadow:0 8px 0 var(--ink),0 16px 30px rgba(0,0,0,.25);
+  padding:18px 22px 20px;text-align:center;max-width:640px;width:100%;display:flex;flex-direction:column;align-items:center}
+h1,h2{margin:0;font-weight:800;line-height:1.05;color:#fff;letter-spacing:.5px;
+  text-shadow:0 3px 0 var(--ink),0 -2px 0 var(--ink),3px 0 0 var(--ink),-3px 0 0 var(--ink),0 6px 0 var(--blue-dark)}
+h1{font-size:clamp(32px,7vw,48px);color:#ffd21f}
+h2{font-size:clamp(30px,6vw,42px);color:#ffd21f}
+.ask{margin:8px 0 10px;font-size:22px;font-weight:800}
+.cards{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.card{--c:#2f7bff;--cd:#1a4fb8;display:flex;flex-direction:column;align-items:center;width:168px;padding:8px 6px 10px;background:#fff;border:5px solid var(--c);border-radius:24px;
+  box-shadow:0 7px 0 var(--cd);font-family:var(--font);color:var(--ink);cursor:pointer;touch-action:manipulation;transition:transform .1s}
+.card[data-hero="1"]{--c:#4a4a5c;--cd:#24242e}
+.card[data-hero="2"]{--c:#f2b705;--cd:#b88400}
+.card canvas{width:150px;height:130px}
+.card b{font-size:24px;line-height:1.1}
+.card span{font-size:16px;font-weight:600;color:var(--cd)}
+.card:active{transform:translateY(5px);box-shadow:0 2px 0 var(--cd)}
+.card:focus-visible{outline:5px solid var(--ink);outline-offset:3px}
+@media (hover:hover){.card:hover{transform:translateY(-3px) rotate(-1.5deg)}}
+.keys{margin:12px 0 0;font-size:16px;font-weight:600;color:#555}
+kbd{display:inline-block;border:2px solid var(--ink);border-bottom-width:4px;border-radius:7px;padding:0 6px;font-family:var(--font);font-weight:800;background:#f3f3f8}
+body.touch .keys kbd,body.touch .keys br{display:none}
+body.touch .keys{font-size:0}
+body.touch .keys::before{content:"Skoč na roboty Doktora Brejlouna!";font-size:18px}
+.rotate{display:none;margin:8px 0 0;font-size:18px;font-weight:800;color:var(--blue-dark)}
+@media (orientation:portrait){body.touch .rotate{display:block}}
+.big{display:block;min-width:240px;min-height:64px;margin:8px 0 0;padding:6px 22px;font-family:var(--font);font-size:24px;font-weight:800;color:#fff;
+  background:var(--blue);border:4px solid var(--ink);border-radius:20px;box-shadow:0 6px 0 var(--ink);cursor:pointer;touch-action:manipulation}
+.big.alt{background:#fff;color:var(--ink);font-size:20px;min-height:64px}
+.big:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+.big:focus-visible{outline:5px solid #ffd21f;outline-offset:3px}
+#endPic{width:220px;height:130px;margin-top:6px}
+#endText{margin:4px 0 4px;font-size:22px;font-weight:800}
+.allgames{display:inline-block;margin-top:14px;padding:10px 20px;font-size:19px;font-weight:800;color:var(--ink);background:#eef3ff;border:3px solid var(--ink);
+  border-radius:14px;text-decoration:none;touch-action:manipulation}
+.allgames:active{background:#d7e3ff}
+
+@media (max-height:520px){
+  .panel{padding:10px 16px 12px}
+  h1{font-size:30px}h2{font-size:28px}
+  .ask{margin:4px 0 6px;font-size:18px}
+  .card{width:140px;padding:4px 4px 6px}
+  .card canvas{width:112px;height:97px}
+  .card b{font-size:20px}.card span{font-size:14px}
+  .keys{margin-top:6px}
+  .allgames{margin-top:8px;padding:6px 16px}
+  #endPic{height:90px;width:152px}
+  .big{min-height:52px;font-size:20px;margin-top:6px}
+  .big.alt{min-height:46px;font-size:17px}
+}

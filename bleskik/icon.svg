@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5ab8ff"/>
+      <stop offset="1" stop-color="#cdf1ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#sky)"/>
+  <path d="M0 360 Q 130 300 260 350 T 512 330 V 512 H 0 Z" fill="#62bf5b"/>
+  <rect y="420" width="512" height="92" fill="#c07d3f"/>
+  <rect y="456" width="512" height="20" fill="#a3652f"/>
+  <rect y="416" width="512" height="16" fill="#58c449"/>
+  <path d="M0 416 H512" stroke="#1d1b2c" stroke-width="6"/>
+  <g stroke="#1d1b2c" stroke-width="12" stroke-linejoin="round" stroke-linecap="round">
+    <!-- spikes -->
+    <polygon points="298,192 106,180 214,246 70,282 202,324 94,402 238,384" fill="#2f7bff"/>
+    <!-- body -->
+    <ellipse cx="286" cy="404" rx="68" ry="50" fill="#2f7bff"/>
+    <!-- head -->
+    <circle cx="286" cy="300" r="102" fill="#2f7bff"/>
+    <ellipse cx="338" cy="334" rx="58" ry="40" fill="#ffe0b5" stroke-width="10"/>
+    <ellipse cx="322" cy="272" rx="36" ry="45" fill="#fff" stroke-width="10"/>
+  </g>
+  <ellipse cx="337" cy="276" rx="17" ry="20" fill="#1d1b2c"/>
+  <circle cx="342" cy="266" r="6" fill="#fff"/>
+  <ellipse cx="385" cy="316" rx="16" ry="14" fill="#1d1b2c"/>
+  <path d="M318 336 A32 32 0 0 0 370 352" fill="none" stroke="#1d1b2c" stroke-width="10" stroke-linecap="round"/>
+  <polygon points="410,72 421.8,103.8 455.6,105.2 429,126.2 438.2,158.8 410,140 381.8,158.8 391,126.2 364.4,105.2 398.2,103.8"
+    fill="#ffd21f" stroke="#1d1b2c" stroke-width="8" stroke-linejoin="round"/>
+</svg>
